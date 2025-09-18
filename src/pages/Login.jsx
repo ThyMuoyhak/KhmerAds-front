@@ -3,7 +3,7 @@ import apiClient from '../api/apiClient';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(''); // Revert to username
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -15,9 +15,8 @@ const Login = () => {
     setError('');
 
     try {
-      // Create form data instead of JSON
       const formData = new URLSearchParams();
-      formData.append('username', username);
+      formData.append('username', username); // Changed from identifier to username
       formData.append('password', password);
 
       const response = await apiClient.post('/auth/login', formData, {
@@ -29,8 +28,14 @@ const Login = () => {
       localStorage.setItem('token', response.data.access_token);
       navigate('/');
     } catch (error) {
+      setIsLoading(false);
+      const errorMsg = error.response?.data?.detail
+        ? Array.isArray(error.response.data.detail)
+          ? error.response.data.detail.map(err => err.msg).join(', ')
+          : error.response.data.detail
+        : 'ការចូលបរាជ័យ។ សូមព្យាយាមម្តងទៀត។';
+      setError(errorMsg);
       console.error('ការចូលបរាជ័យ:', error);
-      setError(error.response?.data?.detail || 'ការចូលបរាជ័យ។ សូមព្យាយាមម្តងទៀត។');
     } finally {
       setIsLoading(false);
     }
@@ -50,7 +55,7 @@ const Login = () => {
             className="text-sm text-gray-600"
             style={{ fontFamily: "'Kantumruy', sans-serif" }}
           >
-            បញ្ចូលព័ត៌មានរបស់អ្នកដើម្បីចូល
+            បញ្ចូលព័ត៌មានរបស់អ្នកដើម្បីចូល (ប្រើឈ្មោះអ្នកប្រើប្រាស់)
           </p>
         </div>
         

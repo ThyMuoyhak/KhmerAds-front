@@ -11,6 +11,7 @@ import React from 'react';
   import ProtectedRoute from './components/ProtectedRoute';
   import EditListing from './components/EditListing';
   import Listings from './pages/Listings';
+  import Profile from './components/Profile';
 
   function App() {
     return (
@@ -20,6 +21,7 @@ import React from 'react';
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/listings" element={<Listings />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/post-ad" element={<ProtectedRoute><PostAd /></ProtectedRoute>} />

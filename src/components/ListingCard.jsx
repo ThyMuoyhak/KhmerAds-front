@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ListingCard = ({ listing, onUpdate, onDelete, isDeleting }) => {
+  // Category mapping in Khmer
   const categoryMap = {
     'electronics': 'អេឡិចត្រូនិច',
     'fashion': 'ម៉ូដ',
@@ -20,7 +21,7 @@ const ListingCard = ({ listing, onUpdate, onDelete, isDeleting }) => {
       <div className="relative overflow-hidden aspect-[4/3]">
         {listing.image_url ? (
           <img 
-            src={`http://localhost:8000${listing.image_url}`}
+            src={`http://localhost:8000${listing.image_url}`} // Assumes backend serves images from this URL
             alt={listing.title}
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
             onError={(e) => {

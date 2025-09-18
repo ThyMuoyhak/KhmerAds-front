@@ -55,27 +55,33 @@ const PostAd = () => {
     formData.append('email', email);
 
     if (imageFile) {
-      formData.append('file', imageFile);
+      formData.append('image', imageFile); // Match backend parameter
     }
 
+    const token = localStorage.getItem('token'); // Assume token is stored after login
     try {
-      await apiClient.post('/listings', formData, {
+      const response = await apiClient.post('/listings', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`, // Add authentication
         },
       });
+      console.log('Listing created:', response.data);
       navigate('/my-listings');
     } catch (error) {
       console.error('កំហុសក្នុងការបង្ហោះការផ្សាយ:', error);
       console.error('កំហុសឆ្លើយតប:', error.response?.data);
       setErrors({ submit: 'បរាជ័យក្នុងការបង្ហោះការផ្សាយ។ សូមព្យាយាមម្តងទៀត។' });
+      if (error.response?.data?.detail) {
+        setErrors({ submit: error.response.data.detail });
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen  py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-2xl">
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
           <div className="text-center mb-6">

@@ -24,7 +24,7 @@ const EditListing = () => {
     { value: 'house', label: 'ផ្ទះ' },
     { value: 'photography', label: 'ការថតរូប' },
     { value: 'car', label: 'ឡាន' },
-    { value: 'Other', label: 'ផ្សេងៗ' }
+    { value: 'other', label: 'ផ្សេងៗ' }
   ];
 
   useEffect(() => {
@@ -44,10 +44,10 @@ const EditListing = () => {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching listing:', error);
+        console.error('Error fetching listing:', error.response || error);
         let errorMessage = `បរាជ័យក្នុងការទាញយកការផ្សាយ។ (កំហុស: ${error.message})`;
         if (error.response) {
-          errorMessage = error.response.status === 404 
+          errorMessage = error.response.status === 404
             ? 'ការផ្សាយមិនត្រូវបានរកឃើញទេ។'
             : `បរាជ័យក្នុងការទាញយកការផ្សាយ។ (កំហុស: ${error.response.data?.detail || error.message})`;
         }
@@ -81,20 +81,21 @@ const EditListing = () => {
     if (formData.category) data.append('category', formData.category);
     if (formData.telegram_link) data.append('telegram_link', formData.telegram_link);
     if (formData.email) data.append('email', formData.email);
-    if (formData.file) data.append('file', formData.file);
+    if (formData.file) data.append('image', formData.file); // Changed from 'file' to 'image'
 
     try {
-      await apiClient.put(`/listings/${id}`, data, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const response = await apiClient.put(`/listings/${id}`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
+      console.log('Update response:', response.data); // Debug
       navigate('/my-listings');
     } catch (error) {
-      console.error('Error updating listing:', error);
+      console.error('Error updating listing:', error.response || error);
       let errorMessage = `បរាជ័យក្នុងការកែសម្រួលការផ្សាយ។ (កំហុស: ${error.message})`;
       if (error.response) {
-        errorMessage = error.response.status === 404 
+        errorMessage = error.response.status === 404
           ? 'ការផ្សាយមិនត្រូវបានរកឃើញទេ។'
-          : error.response.status === 403 
+          : error.response.status === 403
             ? 'អ្នកមិនមានសិទ្ធិកែសម្រួលការផ្សាយនេះទេ។'
             : `បរាជ័យក្នុងការកែសម្រួលការផ្សាយ។ (កំហុស: ${error.response.data?.detail || error.message})`;
       }

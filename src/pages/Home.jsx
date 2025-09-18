@@ -3,6 +3,7 @@ import apiClient from '../api/apiClient';
 import ListingCard from '../components/ListingCard';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
+import Category from '../components/Category';
 
 const Home = () => {
   const [listings, setListings] = useState([]);
@@ -64,8 +65,11 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
+          <Category />
+          <br />
           <div className="flex justify-between items-center mb-6">
             <h1
               className="text-3xl font-bold text-gray-900"
