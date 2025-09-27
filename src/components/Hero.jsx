@@ -1,40 +1,130 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './Hero.css'; // Import the dedicated CSS file
 
-const Hero = () => {   
+const Hero = () => {
+    const stats = [
+        { number: '10K+', label: 'ការផ្សាយសរុប' },
+        { number: '5K+', label: 'អ្នកប្រើប្រាស់' },
+        { number: '99%', label: 'អត្រាពេញចិត្ត' }
+    ];
+
     return (
-      <div 
-        className="min-h-[60vh] bg-cover bg-center bg-no-repeat text-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative"
-        style={{
-          fontFamily: "'Kantumruy', sans-serif",
-          backgroundImage: 'url("https://img.freepik.com/free-photo/excited-girl-looking-left-with-magnifying-glass-found-interesting-promo-investigating-searching-s_1258-164346.jpg?t=st=1758136300~exp=1758139900~hmac=7a338f6c0179ae1506753e3945563c24f4c8c106e9b51b41dfd41f1d0c0d881c&w=1480")',
-          backgroundColor: 'rgba(59, 130, 246, 0.8)', // Blue overlay for better text readability
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div> {/* Dark overlay */}
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <h1 
-            className="text-4xl sm:text-5xl font-bold mb-4 leading-tight"
-            style={{ fontFamily: "'Kantumruy', sans-serif" }}
-          >
-            សូមស្វាគមន៍មកកាន់ KhmerAds
-          </h1>
-          <p 
-            className="text-xl sm:text-2xl mb-8 leading-relaxed"
-            style={{ fontFamily: "'Kantumruy', sans-serif" }}
-          >
-            ទីផ្សារទិញលក់អនឡាញដ៏ងាយស្រួលបំផុតសម្រាប់ប្រជាជនខ្មែរ។ បង្ហោះការផ្សាយថ្មី ឬស្វែងរកទំនិញតាមតម្រូវការរបស់អ្នក។
-          </p>
-          <Link 
-            to="/post-ad"
-            className="bg-white text-blue-700 font-medium py-3 px-8 rounded-lg hover:bg-gray-100 hover:shadow-md transition-all duration-300 text-lg relative z-10"
-            style={{ fontFamily: "'Kantumruy', sans-serif" }}
-          >
-            បង្ហោះការផ្សាយថ្មី
-          </Link>
+        <div className="hero">
+            <div
+                className="hero-background-overlay"
+                style={{
+                    background: 'linear-gradient(45deg, rgba(30, 64, 175, 0.7) 0%, rgba(59, 130, 246, 0.6) 100%)',
+                }}
+            />
+
+            <div className="hero-container">
+                <div className="hero-content">
+                    <div className="hero-text">
+                        <h1 className="hero-title">
+                            ស្វាគមន៍មកកាន់{' '}
+                            <span className="hero-title-highlight">
+                                KhmerAds
+                            </span>
+                        </h1>
+
+                        <p className="hero-subtitle">
+                            វេទិកាលក់ទំនិញលើអ៊ីនធឺណិតដ៏ធំគ្រប់គ្រាន់សម្រាប់ខ្មែរ។
+                            ស្វែងរក និងលក់ទំនិញដោយងាយស្រួល លឿន និងសុវត្ថិភាព។
+                        </p>
+
+                        <div className="hero-buttons">
+                            <Link
+                                to="/post-ad"
+                                className="button button-primary"
+                            >
+                                <svg
+                                    className="button-icon"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2.5"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M12 4v16m8-8H4"
+                                    />
+                                </svg>
+                                បង្ហោះការផ្សាយឥឡូវនេះ
+                            </Link>
+
+                            <Link
+                                to="/products"
+                                className="button button-secondary"
+                            >
+                                <svg
+                                    className="button-icon"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2.5"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    />
+                                </svg>
+                                ស្វែងរកទំនិញ
+                            </Link>
+                        </div>
+
+                        <div className="hero-stats">
+                            {stats.map((stat, index) => (
+                                <div key={index} className="hero-stat-item">
+                                    <div className="stat-number">{stat.number}</div>
+                                    <div className="stat-label">{stat.label}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="hero-image-wrapper">
+                        <div className="glass-card">
+                            <div className="glass-card-grid">
+                                {[1, 2, 3, 4].map((item) => (
+                                    <div key={item} className="grid-item">
+                                        <div className="grid-icon">
+                                            {['📱', '💻', '🚗', '🏠'][item - 1]}
+                                        </div>
+                                        <div className="grid-label">
+                                            {['ទូរស័ព្ទ', 'កុំព្យូទ័រ', 'ឡាន', 'ផ្ទះ'][item - 1]}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="glass-card-footer">
+                                <div className="footer-icon">
+                                    🎯
+                                </div>
+                                <h3 className="footer-title">
+                                    រកឃើញអ្វីដែលអ្នកត្រូវការ
+                                </h3>
+                                <p className="footer-subtitle">
+                                    រាប់ពាន់នាក់កំពុងរកទំនិញនៅលើ KhmerAds
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="floating-badge badge-top-right">
+                            🔥 ពេញនិយម
+                        </div>
+
+                        <div className="floating-badge badge-bottom-left">
+                            ⚡ លឿនជាងគេ
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     );
-}
+};
 
 export default Hero;

@@ -1,149 +1,253 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './ListingCard.css';
 
 const ListingCard = ({ listing, onUpdate, onDelete, isDeleting }) => {
-  // Category mapping in Khmer
+  // Initialize currentTime to real Phnom Penh time
+  const [currentTime, setCurrentTime] = useState(() => {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Phnom_Penh',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }).formatToParts(new Date());
+    const acc = parts.reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+    return new Date(
+      parseInt(acc.year, 10),
+      parseInt(acc.month, 10) - 1,
+      parseInt(acc.day, 10),
+      parseInt(acc.hour, 10),
+      parseInt(acc.minute, 10),
+      parseInt(acc.second, 10)
+    );
+  });
+
+  const [imageLoading, setImageLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
+  const [primaryImageUrl, setPrimaryImageUrl] = useState(null);
+
+  // Update currentTime every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime((prev) => new Date(prev.getTime() + 1000));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Map categories to Khmer
   const categoryMap = {
-    'electronics': 'អេឡិចត្រូនិច',
-    'fashion': 'ម៉ូដ',
-    'house': 'ផ្ទះ',
-    'photography': 'ការថតរូប',
-    'car': 'ឡាន',
-    'Other': 'ផ្សេងៗ'
+    'Cars and Vehicles': 'ឡាននិងយានជំនិះ',
+    'Phones & Tablets': 'ទូរស័ព្ទនិងថេប្លេត',
+    'Computers & Accessories': 'កុំព្យូទ័រនិងគ្រឿងបន្លាស់',
+    'Electronics & Appliances': 'អេឡិចត្រូនិចនិងឧបករណ៍',
+    'House & Land': 'ផ្ទះនិងដី',
+    Jobs: 'ការងារ',
+    Services: 'សេវាកម្ម',
+    'Fashion & Beauty': 'ម៉ូដនិងសម្ផស្ស',
+    'Furniture & Decor': 'គ្រឿងសង្ហារិមនិងការតុបតែង',
+    'Books, Sports & Hobbies': 'សៀវភៅ កីឡា និងចំណង់ចំណូលចិត្ត',
+    Pets: 'សត្វចិញ្ចឹម',
+    Foods: 'អាហារ',
+    Electronics: 'អេឡិចត្រូនិច',
+    Fashion: 'ម៉ូដ',
+    'Home & Garden': 'ផ្ទះ និងសួន',
+    Vehicles: 'យានយន្ត',
+    Sports: 'កីឡា',
+    Hobbies: 'ចំណង់ចំណូលចិត្ត',
+    Other: 'ផ្សេងៗ',
+  };
+
+  // Set primary image URL
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl || typeof imageUrl !== 'string') {
+      console.warn('Invalid or missing imageUrl:', imageUrl);
+      return null;
+    }
+    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    if (imageUrl.startsWith('http')) return imageUrl;
+    let cleanPath = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
+    if (cleanPath.startsWith('uploads/')) cleanPath = cleanPath.slice(8);
+    return `${baseUrl}/uploads/${cleanPath}`;
+  };
+
+  useEffect(() => {
+    if (listing?.images && Array.isArray(listing.images) && listing.images.length > 0 && listing.images[0]?.image_url) {
+      const url = getImageUrl(listing.images[0].image_url);
+      setPrimaryImageUrl(url);
+      setImageLoading(true);
+      setImageError(false);
+    } else if (listing?.image_url) {
+      const url = getImageUrl(listing.image_url);
+      setPrimaryImageUrl(url);
+      setImageLoading(true);
+      setImageError(false);
+    } else {
+      setPrimaryImageUrl(null);
+      setImageLoading(false);
+      setImageError(true);
+    }
+  }, [listing]);
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+    setImageError(false);
+  };
+
+  const handleImageError = () => {
+    setImageLoading(false);
+    setImageError(true);
+  };
+
+  // Format relative time in Khmer
+  const formatTimeSincePosted = (dateString) => {
+    if (!dateString) return 'គ្មានព័ត៌មាន';
+    try {
+      const postedDate = new Date(dateString);
+      const diffMs = currentTime - postedDate;
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+      if (diffHours >= 24) {
+        const diffDays = Math.floor(diffHours / 24);
+        return `${diffDays} ថ្ងៃមុន`;
+      } else if (diffHours >= 1) {
+        return `${diffHours} ម៉ោង${diffMinutes > 0 ? ` និង ${diffMinutes} នាទី` : ''}មុន`;
+      } else if (diffMinutes > 0) {
+        return `${diffMinutes} នាទីមុន`;
+      } else if (diffSeconds >= 0) {
+        return `ឥឡូវនេះ`;
+      } else {
+        return 'មិនអាចគណនាបាន';
+      }
+    } catch (error) {
+      console.error('Error formatting time since posted:', error);
+      return 'មិនអាចគណនាបាន';
+    }
   };
 
   return (
-    <div 
-      className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 overflow-hidden"
-      style={{ fontFamily: "'Kantumruy', sans-serif" }}
-    >
-      {/* Image Section */}
-      <div className="relative overflow-hidden aspect-[4/3]">
-        {listing.image_url ? (
-          <img 
-            src={`http://localhost:8000${listing.image_url}`} // Assumes backend serves images from this URL
-            alt={listing.title}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            onError={(e) => {
-              console.error('រូបភាពមិនអាចផ្ទុកឡើង:', listing.image_url);
-              e.target.style.display = 'none';
-              const fallback = e.target.parentNode.querySelector('.image-fallback');
-              if (fallback) fallback.style.display = 'flex';
-            }}
-          />
-        ) : null}
-        
-        {/* Fallback Image */}
-        <div 
-          className="image-fallback w-full h-full bg-gray-100 flex items-center justify-center"
-          style={{ display: listing.image_url ? 'none' : 'flex' }}
-        >
-          <div className="text-center">
-            <svg className="w-10 h-10 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span className="text-sm text-gray-500">គ្មានរូបភាព</span>
+    <div className="listing-card">
+      <div className="image-container">
+        {primaryImageUrl ? (
+          <>
+            {imageLoading && (
+              <div className="image-loading">
+                <div className="spinner" />
+              </div>
+            )}
+            <img
+              src={primaryImageUrl}
+              alt={listing?.title || 'Listing image'}
+              className="listing-image"
+              loading="eager"
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+            />
+            {imageError && (
+              <div className="image-error" role="img" aria-label="Image load failed">
+                <div className="image-error-content">
+                  <svg className="image-error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span className="image-error-text">រូបភាពមិនអាចបង្ហាញបាន</span>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="no-image" role="img" aria-label="No image available">
+            <div className="image-error-content">
+              <svg className="image-error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <span className="image-error-text">គ្មានរូបភាព</span>
+            </div>
           </div>
-        </div>
-        
-        {/* Category Badge */}
-        <div className="absolute top-3 left-3">
-          <span className="px-2 py-1 text-xs font-medium bg-white text-gray-700 rounded-md shadow-sm">
-            {categoryMap[listing.category] || listing.category}
-          </span>
-        </div>
-
-        {/* Price Badge */}
-        <div className="absolute top-3 right-3">
-          <div className="bg-white px-2 py-1 rounded-md shadow-sm">
-            <span className="text-sm font-semibold text-gray-900">${listing.price.toFixed(2)}</span>
-          </div>
+        )}
+        <span className="category-badge">
+          {categoryMap[listing?.category] || listing?.category || 'ផ្សេងៗ'}
+        </span>
+        <div className="price-badge">
+          <span className="price-text">${Number(listing?.price || 0).toFixed(2)}</span>
         </div>
       </div>
-      
-      {/* Content Section */}
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2 leading-tight">
-          {listing.title}
-        </h3>
-        
-        {/* Description - Truncated to 3 lines */}
-        <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
-          {listing.description || 'គ្មានការពិពណ៌នា'}
-        </p>
-        
-        {/* Contact Information */}
-        <div className="space-y-2 mb-4">
-          {listing.telegram_link && (
-            <div className="flex items-center">
-              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
-                <svg className="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.568 8.16l-1.58 7.44c-.12.532-.432.66-.876.41l-2.436-1.8-1.176 1.128c-.132.132-.24.24-.492.24l.168-2.388L15.12 9.28c.192-.168-.048-.264-.288-.096l-3.3 2.08-2.22-.696c-.48-.156-.492-.48.108-.708l8.688-3.348c.408-.156.756.096.636.708z"/>
+
+      <div className="content-section">
+        <h3 className="listing-title">{listing?.title || 'គ្មានចំណងជើង'}</h3>
+        <div className="post-time-section">
+          <svg className="post-time-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span className="post-time-text">
+            បង្ហោះ៖ {formatTimeSincePosted(listing?.created_at)}
+          </span>
+        </div>
+        <div className="contact-links">
+          {listing?.telegram_link && (
+            <div className="contact-item">
+              <div className="contact-icon-wrapper">
+                <svg className="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.568 8.16l-1.58 7.44c-.12.532-.432.66-.876.41l-2.436-1.8-1.176 1.128c-.132.132-.240.24-.492.24l.168-2.388L15.12 9.28c.192-.168-.048-.264-.288-.096l-3.3 2.08-2.22-.696c-.48-.156-.492-.48.108-.708l8.688-3.348c.408-.156.756.096.636.708z" />
                 </svg>
               </div>
-              <a 
-                href={listing.telegram_link} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-sm text-gray-600 hover:text-blue-600 transition-colors truncate"
-              >
+              <a href={listing.telegram_link} target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Contact via Telegram">
                 ទំនាក់ទំនងតាម Telegram
               </a>
             </div>
           )}
-          
-          {listing.email && (
-            <div className="flex items-center">
-              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
-                <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {listing?.email && (
+            <div className="contact-item">
+              <div className="contact-icon-wrapper">
+                <svg className="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                 </svg>
               </div>
-              <a 
-                href={`mailto:${listing.email}`} 
-                className="text-sm text-gray-600 hover:text-green-600 transition-colors truncate"
-              >
+              <a href={`mailto:${listing.email}`} className="contact-link" aria-label={`Email ${listing.email}`}>
                 {listing.email}
               </a>
             </div>
           )}
         </div>
-        
-        {/* CTA Button */}
-        <Link 
-          to={`/listing/${listing.id}`} 
-          className="block w-full"
-        >
-          <div className="w-full bg-blue-700 text-white text-center py-2.5 rounded-lg hover:bg-blue-800 transition-colors duration-200 font-medium text-sm">
-            មើលព័ត៌មានបន្ថែម
-          </div>
+        <Link to={`/listing/${listing?.id || ''}`} className="details-button">
+          មើលព័ត៌មានបន្ថែម
         </Link>
-
-        {/* Edit and Delete Buttons */}
         {(onUpdate || onDelete) && (
-          <div className="flex gap-2 mt-3">
+          <div className="action-buttons">
             {onUpdate && (
-              <button
-                onClick={onUpdate}
-                className="flex-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-lg hover:bg-blue-200 transition-all duration-300 text-sm"
-                style={{ fontFamily: "'Kantumruy', sans-serif" }}
-                disabled={isDeleting}
-              >
+              <button onClick={onUpdate} className="action-button edit-button" disabled={isDeleting} aria-label="Edit listing">
                 កែសម្រួល
               </button>
             )}
             {onDelete && (
-              <button
-                onClick={onDelete}
-                className="flex-1 bg-red-100 text-red-700 px-3 py-1 rounded-lg hover:bg-red-200 transition-all duration-300 text-sm"
-                style={{ fontFamily: "'Kantumruy', sans-serif" }}
-                disabled={isDeleting}
-              >
+              <button onClick={onDelete} className="action-button delete-button" disabled={isDeleting} aria-label="Delete listing">
                 {isDeleting ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <span className="delete-loading">
+                    <svg className="delete-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="spinner-circle" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="spinner-path" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
                     កំពុងលុប...
                   </span>

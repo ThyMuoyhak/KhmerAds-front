@@ -11,7 +11,8 @@ import React from 'react';
   import ProtectedRoute from './components/ProtectedRoute';
   import EditListing from './components/EditListing';
   import Listings from './pages/Listings';
-  import Profile from './components/Profile';
+import UserProfile from './components/UserProfile';
+import Products from './pages/Products';
 
   function App() {
     return (
@@ -20,12 +21,14 @@ import React from 'react';
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
             <Route path="/listings" element={<Listings />} />
-            <Route path="/profile" element={<Profile />} />
+            {/* <Route path="/profile" element={<Profile />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/post-ad" element={<ProtectedRoute><PostAd /></ProtectedRoute>} />
             <Route path="/my-listings" element={<ProtectedRoute><MyListings /></ProtectedRoute>} />
+            <Route path="/user/:username" element={<UserProfile />} />
             <Route path="/edit-listing/:id" element={<EditListing />} />
             <Route path="/listing/:id" element={<ListingDetails />} />
             
