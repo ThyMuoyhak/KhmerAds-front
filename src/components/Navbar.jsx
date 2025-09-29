@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -6,10 +6,22 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const isLoggedIn = !!localStorage.getItem('token');
 
   const isActive = (path) => location.pathname === path;
+
+  // Check if mobile screen
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -28,624 +40,581 @@ const Navbar = () => {
   const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          <HomeIcon className="logo-icon" />
-          <span className="logo-text">Khmer365</span>
-        </Link>
+    <>
+      {/* Top Navigation Bar */}
+      <nav className="navbar">
+        <div className="nav-container">
+          {/* Logo */}
+          <Link to="/" className="nav-logo">
+            {/* <HomeIcon /> */}
+            <span>KhmerAds</span>
+          </Link>
 
-        <div className="navbar-desktop">
-          <div className="nav-group nav-links">
-            <Link 
-              to="/" 
-              className={`nav-link ${isActive('/') ? 'active' : ''}`}
-            >
-              <DashboardIcon className="nav-icon" />
-              <span>ទំព័រដើម</span>
-            </Link>
-            <Link 
-              to="/post-ad" 
-              className={`nav-link ${isActive('/post-ad') ? 'active' : ''}`}
-            >
-              <PlusCircleIcon className="nav-icon" />
-              <span>បង្ហោះការផ្សាយ</span>
-            </Link>
-            {isLoggedIn && (
+          {/* Desktop Navigation */}
+          <div className="nav-desktop">
+            <div className="nav-links">
               <Link 
-                to="/my-listings" 
-                className={`nav-link ${isActive('/my-listings') ? 'active' : ''}`}
+                to="/" 
+                className={`nav-link ${isActive('/') ? 'active' : ''}`}
               >
-                <ClipboardListIcon className="nav-icon" />
-                <span>ការផ្សាយរបស់ខ្ញុំ</span>
+                <DashboardIcon />
+                <span>ទំព័រដើម</span>
               </Link>
-            )}
-          </div>
-        </div>
-
-        <div className="navbar-right">
-          <form onSubmit={handleSearch} className="search-form">
-            <div className="search-input-group">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="ស្វែងរកអចលនទ្រព្យ..."
-                className="search-input"
-              />
-              <button type="submit" className="search-button" aria-label="Search">
-                <SearchIcon />
-              </button>
+              <Link 
+                to="/post-ad" 
+                className={`nav-link ${isActive('/post-ad') ? 'active' : ''}`}
+              >
+                <PlusCircleIcon />
+                <span>បង្ហោះការផ្សាយ</span>
+              </Link>
+              {isLoggedIn && (
+                <Link 
+                  to="/my-listings" 
+                  className={`nav-link ${isActive('/my-listings') ? 'active' : ''}`}
+                >
+                  <ClipboardListIcon />
+                  <span>ការផ្សាយរបស់ខ្ញុំ</span>
+                </Link>
+              )}
             </div>
-          </form>
-
-          <div className="nav-group auth-buttons">
-            {isLoggedIn ? (
-              <button onClick={handleLogout} className="logout-button">
-                <LogoutIcon className="button-icon" />
-                <span className="button-text">ចាកចេញ</span>
-              </button>
-            ) : (
-              <>
-                <Link to="/login" className="login-button">
-                  <UserIcon className="button-icon" />
-                  <span className="button-text">ចូល</span>
-                </Link>
-                <Link to="/register" className="register-button">
-                  <UserPlusIcon className="button-icon" />
-                  <span className="button-text">ចុះឈ្មោះ</span>
-                </Link>
-              </>
-            )}
           </div>
-        </div>
 
-        <button 
-          className="mobile-menu-button"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-expanded={isMobileMenuOpen}
-          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-        </button>
-      </div>
-
-      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={closeMenu}>
-        <div className="mobile-menu" onClick={e => e.stopPropagation()}>
-          <div className="mobile-menu-content">
-            <form onSubmit={handleSearch} className="mobile-search-form">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="ស្វែងរកអចលនទ្រព្យ..."
-                className="mobile-search-input"
-              />
-              <button type="submit" className="mobile-search-button">
-                <SearchIcon className="button-icon" />
-                <span>ស្វែងរក</span>
-              </button>
+          {/* Right Section - Search & Auth */}
+          <div className="nav-right">
+            {/* Search Bar */}
+            <form onSubmit={handleSearch} className="search-form">
+              <div className="search-box">
+                <SearchIcon />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="ស្វែងរកអចលនទ្រព្យ..."
+                  className="search-input"
+                />
+              </div>
             </form>
 
-            <Link 
-              to="/" 
-              className={`mobile-nav-link ${isActive('/') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              <DashboardIcon className="nav-icon" />
-              <span>ទំព័រដើម</span>
-            </Link>
-            <Link 
-              to="/post-ad" 
-              className={`mobile-nav-link ${isActive('/post-ad') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              <PlusCircleIcon className="nav-icon" />
-              <span>បង្ហោះការផ្សាយ</span>
-            </Link>
-            {isLoggedIn && (
-              <Link 
-                to="/my-listings" 
-                className={`mobile-nav-link ${isActive('/my-listings') ? 'active' : ''}`}
-                onClick={closeMenu}
-              >
-                <ClipboardListIcon className="nav-icon" />
-                <span>ការផ្សាយរបស់ខ្ញុំ</span>
-              </Link>
-            )}
-
-            <div className="mobile-auth-buttons">
+            {/* Auth Buttons */}
+            <div className="auth-section">
               {isLoggedIn ? (
-                <button onClick={handleLogout} className="mobile-logout-button">
-                  <LogoutIcon className="button-icon" />
+                <button onClick={handleLogout} className="btn btn-logout">
+                  <LogoutIcon />
                   <span>ចាកចេញ</span>
                 </button>
               ) : (
                 <>
-                  <Link 
-                    to="/login" 
-                    className="mobile-login-button"
-                    onClick={closeMenu}
-                  >
-                    <UserIcon className="button-icon" />
+                  <Link to="/login" className="btn btn-login">
+                    <UserIcon />
                     <span>ចូល</span>
                   </Link>
-                  <Link 
-                    to="/register" 
-                    className="mobile-register-button"
-                    onClick={closeMenu}
-                  >
-                    <UserPlusIcon className="button-icon" />
+                  <Link to="/register" className="btn btn-primary">
+                    <UserPlusIcon />
                     <span>ចុះឈ្មោះ</span>
                   </Link>
                 </>
               )}
             </div>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="mobile-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+          </button>
         </div>
-      </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="mobile-menu">
+            <div className="mobile-content">
+              {/* Mobile Search */}
+              <form onSubmit={handleSearch} className="mobile-search">
+                <div className="search-box">
+                  <SearchIcon />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="ស្វែងរកអចលនទ្រព្យ..."
+                    className="search-input"
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary btn-full">
+                  ស្វែងរក
+                </button>
+              </form>
+
+              {/* Mobile Links */}
+              <Link 
+                to="/" 
+                className={`mobile-link ${isActive('/') ? 'active' : ''}`}
+                onClick={closeMenu}
+              >
+                <DashboardIcon />
+                <span>ទំព័រដើម</span>
+              </Link>
+              <Link 
+                to="/post-ad" 
+                className={`mobile-link ${isActive('/post-ad') ? 'active' : ''}`}
+                onClick={closeMenu}
+              >
+                <PlusCircleIcon />
+                <span>បង្ហោះការផ្សាយ</span>
+              </Link>
+              {isLoggedIn && (
+                <Link 
+                  to="/my-listings" 
+                  className={`mobile-link ${isActive('/my-listings') ? 'active' : ''}`}
+                  onClick={closeMenu}
+                >
+                  <ClipboardListIcon />
+                  <span>ការផ្សាយរបស់ខ្ញុំ</span>
+                </Link>
+              )}
+
+              {/* Mobile Auth */}
+              <div className="mobile-auth">
+                {isLoggedIn ? (
+                  <button onClick={handleLogout} className="btn btn-logout btn-full">
+                    <LogoutIcon />
+                    <span>ចាកចេញ</span>
+                  </button>
+                ) : (
+                  <div className="auth-buttons">
+                    <Link to="/login" className="btn btn-outline btn-full" onClick={closeMenu}>
+                      <UserIcon />
+                      <span>ចូល</span>
+                    </Link>
+                    <Link to="/register" className="btn btn-primary btn-full" onClick={closeMenu}>
+                      <UserPlusIcon />
+                      <span>ចុះឈ្មោះ</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Bottom Navigation Bar - Mobile Only */}
+      {isMobile && (
+        <nav className="bottom-nav">
+          <Link 
+            to="/" 
+            className={`bottom-nav-item ${isActive('/') ? 'active' : ''}`}
+          >
+            <DashboardIcon />
+            <span>ទំព័រដើម</span>
+          </Link>
+          
+          <Link 
+            to="/post-ad" 
+            className={`bottom-nav-item ${isActive('/post-ad') ? 'active' : ''}`}
+          >
+            <PlusCircleIcon />
+            <span>បង្ហោះ</span>
+          </Link>
+          
+           <Link 
+            to="/products" 
+            className={`bottom-nav-item ${isActive('/post-ad') ? 'active' : ''}`}
+          >
+            <SearchIcon />
+            <span>ស្វែងរក</span>
+          </Link>
+          
+          {isLoggedIn ? (
+            <Link 
+              to="/my-listings" 
+              className={`bottom-nav-item ${isActive('/my-listings') ? 'active' : ''}`}
+            >
+              <ClipboardListIcon />
+              <span>របស់ខ្ញុំ</span>
+            </Link>
+          ) : (
+            <Link 
+              to="/login" 
+              className={`bottom-nav-item ${isActive('/login') ? 'active' : ''}`}
+            >
+              <UserIcon />
+              <span>ចូល</span>
+            </Link>
+          )}
+        </nav>
+      )}
 
       <style jsx>{`
-        :root {
-          --primary-color: #1e40af; /* Vibrant blue */
-          --accent-color: #3b82f6; /* Lighter blue for hover */
-          --text-primary: #111827; /* Dark gray for text */
-          --text-secondary: #6b7280; /* Muted gray for secondary text */
-          --background: #f8fafc; /* Light gray background */
-          --surface: #ffffff; /* White for cards and surfaces */
-          --border: #e5e7eb; /* Light border color */
-          --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-          --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-          --transition: all 0.3s ease;
-        }
-
         .navbar {
-          background: var(--surface);
+          background: white;
+          border-bottom: 1px solid #e5e7eb;
           position: sticky;
           top: 0;
           z-index: 1000;
-          font-family: 'Khmer, 'Inter', sans-serif;
-          box-shadow: var(--shadow-sm);
+          font-family: 'Inter', 'Khmer', sans-serif;
         }
 
-        .navbar-container {
-          max-width: 1440px;
+        .nav-container {
+          max-width: 1200px;
           margin: 0 auto;
-          padding: 0 1.5rem;
-          height: 80px;
+          padding: 0 1rem;
+          height: 70px;
           display: flex;
           align-items: center;
           justify-content: space-between;
         }
 
-        .navbar-logo {
-          display: flex;
-          align-items: center;
-          text-decoration: none;
-          color: var(--primary-color);
-          font-weight: 700;
-          font-size: 1.75rem;
-          gap: 0.75rem;
-        }
-
-        .logo-icon {
-          font-size: 2rem;
-          color: var(--accent-color);
-          transition: var(--transition);
-        }
-
-        .logo-text {
-          color: var(--primary-color);
-          transition: var(--transition);
-        }
-
-        .navbar-logo:hover .logo-text {
-          color: var(--accent-color);
-        }
-
-        .navbar-desktop {
-          display: none;
-          flex-grow: 1;
-          justify-content: center;
-        }
-
-        .navbar-right {
-          display: flex;
-          align-items: center;
-          gap: 2rem;
-        }
-
-        @media (min-width: 1024px) {
-          .navbar-desktop {
-            display: flex;
-          }
-        }
-
-        .nav-group {
-          display: flex;
-          align-items: center;
-          gap: 1.25rem;
-        }
-
-        .nav-link {
+        /* Logo */
+        .nav-logo {
           display: flex;
           align-items: center;
           gap: 0.5rem;
           text-decoration: none;
-          color: var(--text-secondary);
-          font-weight: 500;
-          font-size: 1rem;
-          padding: 0.75rem 1.25rem;
-          border-radius: 10px;
-          transition: var(--transition);
+          font-weight: 700;
+          font-size: 1.5rem;
+          color: #2563eb;
         }
 
-        .nav-icon {
-          width: 22px;
-          height: 22px;
-          color: var(--text-secondary);
-          transition: var(--transition);
+        .nav-logo svg {
+          width: 24px;
+          height: 24px;
         }
 
-        .nav-link:hover {
-          color: var(--primary-color);
-          background: var(--background);
-          transform: translateY(-2px);
+        /* Desktop Navigation */
+        .nav-desktop {
+          display: none;
         }
 
-        .nav-link.active {
-          color: var(--primary-color);
-          background: var(--background);
-          font-weight: 600;
-          box-shadow: 0 2px 0 var(--accent-color);
+        .nav-right {
+          display: none;
+          align-items: center;
+          gap: 1.5rem;
         }
 
+        /* Search Form */
         .search-form {
           display: none;
         }
 
-        @media (min-width: 1024px) {
-          .search-form {
-            display: flex;
-          }
-        }
-
-        .search-input-group {
+        .search-box {
           display: flex;
           align-items: center;
-          background: var(--surface);
-          border: 1px solid var(--border);
-          border-radius: 12px;
-          transition: var(--transition);
-          box-shadow: var(--shadow-sm);
+          gap: 0.5rem;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
+          padding: 0.5rem 1rem;
+          min-width: 280px;
         }
 
-        .search-input-group:focus-within {
-          border-color: var(--accent-color);
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        .search-box svg {
+          width: 18px;
+          height: 18px;
+          color: #64748b;
         }
 
         .search-input {
-          padding: 0.75rem 1.25rem;
           border: none;
           background: transparent;
           outline: none;
-          width: 300px;
-          font-size: 1rem;
-          color: var(--text-primary);
-          font-family: 'Khmer, 'Inter', sans-serif;
+          flex: 1;
+          font-size: 0.9rem;
+          color: #1e293b;
         }
 
-        .search-button {
-          padding: 0.75rem 1.25rem;
-          border: none;
-          background: transparent;
-          color: var(--text-secondary);
-          cursor: pointer;
-          transition: var(--transition);
+        .search-input::placeholder {
+          color: #94a3b8;
         }
 
-        .search-button:hover {
-          color: var(--accent-color);
-        }
-
-        .auth-buttons {
+        /* Auth Section */
+        .auth-section {
+          display: flex;
+          align-items: center;
           gap: 0.75rem;
         }
 
-        .button-icon {
+        /* Buttons */
+        .btn {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 6px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .btn-primary {
+          background: #2563eb;
+          color: white;
+        }
+
+        .btn-primary:hover {
+          background: #1d4ed8;
+        }
+
+        .btn-login {
+          background: transparent;
+          color: #64748b;
+          border: 1px solid #e2e8f0;
+        }
+
+        .btn-login:hover {
+          background: #f8fafc;
+          color: #374151;
+        }
+
+        .btn-logout {
+          background: #ef4444;
+          color: white;
+        }
+
+        .btn-logout:hover {
+          background: #dc2626;
+        }
+
+        .btn-outline {
+          background: transparent;
+          color: #2563eb;
+          border: 1px solid #2563eb;
+        }
+
+        .btn-outline:hover {
+          background: #f0f9ff;
+        }
+
+        .btn-full {
+          width: 100%;
+          justify-content: center;
+        }
+
+        /* Mobile Toggle */
+        .mobile-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border: 1px solid #e2e8f0;
+          border-radius: 6px;
+          background: white;
+          cursor: pointer;
+        }
+
+        .mobile-toggle svg {
+          width: 20px;
+          height: 20px;
+          color: #374151;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: white;
+          border-top: 1px solid #e5e7eb;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          z-index: 1001;
+        }
+
+        .mobile-content {
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .mobile-search {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .mobile-link {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem 1rem;
+          text-decoration: none;
+          color: #374151;
+          border-radius: 6px;
+          transition: background 0.2s;
+        }
+
+        .mobile-link:hover,
+        .mobile-link.active {
+          background: #f8fafc;
+          color: #2563eb;
+        }
+
+        .mobile-link svg {
           width: 20px;
           height: 20px;
         }
 
-        .login-button {
+        .mobile-auth {
+          margin-top: 0.5rem;
+        }
+
+        .auth-buttons {
           display: flex;
+          gap: 0.75rem;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: white;
+          border-top: 1px solid #e5e7eb;
+          display: flex;
+          justify-content: space-around;
           align-items: center;
-          gap: 0.5rem;
-          padding: 0.75rem 1.5rem;
-          color: var(--text-secondary);
+          padding: 0.5rem 0;
+          z-index: 999;
+          backdrop-filter: blur(10px);
+        }
+
+        .bottom-nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.25rem;
+          padding: 0.5rem;
           text-decoration: none;
-          font-weight: 500;
-          font-size: 1rem;
-          border-radius: 10px;
-          transition: var(--transition);
-        }
-
-        .login-button:hover {
-          color: var(--primary-color);
-          background: var(--background);
-          transform: translateY(-2px);
-        }
-
-        .register-button {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.75rem 1.5rem;
-          background: var(--primary-color);
-          color: var(--surface);
-          text-decoration: none;
-          border-radius: 10px;
-          font-weight: 600;
-          font-size: 1rem;
-          transition: var(--transition);
-        }
-
-        .register-button:hover {
-          background: var(--accent-color);
-          box-shadow: var(--shadow-md);
-          transform: translateY(-2px);
-        }
-
-        .logout-button {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.75rem 1.5rem;
-          background: #ef4444;
-          color: var(--surface);
+          color: #64748b;
+          font-size: 0.7rem;
           border: none;
-          border-radius: 10px;
-          font-weight: 600;
-          font-size: 1rem;
+          background: none;
           cursor: pointer;
-          transition: var(--transition);
-          font-family: 'Khmer, 'Inter', sans-serif;
+          transition: all 0.2s;
+          flex: 1;
+          max-width: 80px;
         }
 
-        .logout-button:hover {
-          background: #dc2626;
-          box-shadow: var(--shadow-md);
-          transform: translateY(-2px);
+        .bottom-nav-item.active {
+          color: #2563eb;
         }
 
-        @media (max-width: 1200px) and (min-width: 1024px) {
-          .auth-buttons .button-text {
-            display: none;
+        .bottom-nav-item:hover {
+          color: #2563eb;
+        }
+
+        .bottom-nav-item svg {
+          width: 20px;
+          height: 20px;
+        }
+
+        .bottom-nav-item span {
+          font-size: 0.7rem;
+          font-weight: 500;
+          text-align: center;
+        }
+
+        .search-trigger {
+          /* No additional styles needed */
+        }
+
+        /* Add padding to main content to account for bottom nav */
+        :global(body) {
+          padding-bottom: 60px;
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 768px) {
+          .nav-desktop {
+            display: flex;
           }
-          .auth-buttons .login-button,
-          .auth-buttons .register-button,
-          .auth-buttons .logout-button {
-            padding: 0.75rem;
-          }
-          .auth-buttons {
+
+          .nav-links {
+            display: flex;
+            align-items: center;
             gap: 0.5rem;
           }
-        }
 
-        .mobile-menu-button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 48px;
-          height: 48px;
-          border: 1px solid var(--border);
-          border-radius: 12px;
-          background: var(--surface);
-          color: var(--primary-color);
-          cursor: pointer;
-          transition: var(--transition);
-        }
+          .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #64748b;
+            border-radius: 6px;
+            transition: all 0.2s;
+          }
 
-        .mobile-menu-button:hover {
-          background: var(--background);
-          box-shadow: var(--shadow-sm);
+          .nav-link:hover {
+            color: #2563eb;
+            background: #f0f9ff;
+          }
+
+          .nav-link.active {
+            color: #2563eb;
+            background: #f0f9ff;
+            font-weight: 500;
+          }
+
+          .nav-link svg {
+            width: 18px;
+            height: 18px;
+          }
+
+          .nav-right {
+            display: flex;
+          }
+
+          .search-form {
+            display: block;
+          }
+
+          .mobile-toggle {
+            display: none;
+          }
+
+          .bottom-nav {
+            display: none;
+          }
+
+          /* Remove bottom padding on desktop */
+          :global(body) {
+            padding-bottom: 0;
+          }
         }
 
         @media (min-width: 1024px) {
-          .mobile-menu-button {
-            display: none;
+          .nav-container {
+            padding: 0 2rem;
+          }
+          
+          .search-box {
+            min-width: 320px;
           }
         }
 
-        .mobile-menu-overlay {
-          position: fixed;
-          top: 80px;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.3);
-          z-index: 999;
-          visibility: hidden;
-          opacity: 0;
-          transition: opacity 0.3s, visibility 0.3s;
-        }
-
-        .mobile-menu-overlay.open {
-          visibility: visible;
-          opacity: 1;
-        }
-
-        .mobile-menu {
-          background: var(--surface);
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          max-width: 400px;
-          margin: 0 auto;
-          border-radius: 0 0 16px 16px;
-          transform: translateY(-100%);
-          transition: transform 0.3s ease-out;
-          box-shadow: var(--shadow-md);
-        }
-
-        .mobile-menu-overlay.open .mobile-menu {
-          transform: translateY(0);
-        }
-
-        .mobile-menu-content {
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .mobile-nav-link {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          padding: 1rem 1.5rem;
-          text-decoration: none;
-          color: var(--text-primary);
-          font-weight: 500;
-          font-size: 1.1rem;
-          border-radius: 12px;
-          transition: var(--transition);
-        }
-
-        .mobile-nav-link .nav-icon {
-          color: var(--accent-color);
-        }
-
-        .mobile-nav-link:hover,
-        .mobile-nav-link.active {
-          background: var(--background);
-          color: var(--primary-color);
-          font-weight: 600;
-        }
-
-        .mobile-search-form {
-          margin-bottom: 1.5rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .mobile-search-input {
-          width: 100%;
-          padding: 0.75rem 1.5rem;
-          border: 1px solid var(--border);
-          border-radius: 12px;
-          font-size: 1rem;
-          font-family: 'Khmer, 'Inter', sans-serif;
-          outline: none;
-          transition: var(--transition);
-        }
-
-        .mobile-search-input:focus {
-          border-color: var(--accent-color);
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-
-        .mobile-search-button {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          padding: 0.75rem;
-          background: var(--primary-color);
-          color: var(--surface);
-          border: none;
-          border-radius: 12px;
-          font-weight: 600;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: var(--transition);
-        }
-
-        .mobile-search-button:hover {
-          background: var(--accent-color);
-          box-shadow: var(--shadow-md);
-        }
-
-        .mobile-auth-buttons {
-          display: flex;
-          gap: 1rem;
-          margin-top: 0.75rem;
-        }
-
-        .mobile-login-button {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          padding: 0.75rem;
-          text-decoration: none;
-          color: var(--primary-color);
-          border: 1px solid var(--primary-color);
-          border-radius: 12px;
-          font-weight: 500;
-          font-size: 1rem;
-          background: transparent;
-          transition: var(--transition);
-        }
-
-        .mobile-login-button:hover {
-          background: rgba(59, 130, 246, 0.05);
-          box-shadow: var(--shadow-sm);
-        }
-
-        .mobile-register-button {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          padding: 0.75rem;
-          text-decoration: none;
-          background: var(--primary-color);
-          color: var(--surface);
-          border-radius: 12px;
-          font-weight: 600;
-          font-size: 1rem;
-          transition: var(--transition);
-        }
-
-        .mobile-register-button:hover {
-          background: var(--accent-color);
-          box-shadow: var(--shadow-md);
-        }
-
-        .mobile-logout-button {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          padding: 0.75rem;
-          background: #ef4444;
-          color: var(--surface);
-          border: none;
-          border-radius: 12px;
-          font-weight: 600;
-          font-size: 1rem;
-          cursor: pointer;
-          font-family: 'Khmer, 'Inter', sans-serif;
-          transition: var(--transition);
-        }
-
-        .mobile-logout-button:hover {
-          background: #dc2626;
-          box-shadow: var(--shadow-md);
+        /* Safe area support for notched phones */
+        @supports (padding: max(0px)) {
+          .bottom-nav {
+            padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+          }
         }
       `}</style>
-    </nav>
+    </>
   );
 };
 
+// Keep all your existing Icon components exactly as they are
 const IconBase = ({ children, className }) => (
   <svg 
     className={className} 

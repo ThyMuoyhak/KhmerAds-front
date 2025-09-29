@@ -14,28 +14,107 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const categories = [
-    { name: '', khName: 'មើលទាំងអស់', icon: '🌐' },
-    { name: 'Cars and Vehicles', khName: 'ឡាននិងយានជំនិះ', icon: '🚗' },
-    { name: 'Phones & Tablets', khName: 'ទូរស័ព្ទនិងថេប្លេត', icon: '📱' },
-    { name: 'Computers & Accessories', khName: 'កុំព្យូទ័រនិងគ្រឿងបន្លាស់', icon: '💻' },
-    { name: 'Electronics & Appliances', khName: 'អេឡិចត្រូនិចនិងឧបករណ៍', icon: '📺' },
-    { name: 'House & Land', khName: 'ផ្ទះនិងដី', icon: '🏠' },
-    { name: 'Jobs', khName: 'ការងារ', icon: '💼' },
-    { name: 'Services', khName: 'សេវាកម្ម', icon: '🔧' },
-    { name: 'Fashion & Beauty', khName: 'ម៉ូដនិងសម្ផស្ស', icon: '👗' },
-    { name: 'Furniture & Decor', khName: 'គ្រឿងសង្ហារិមនិងការតុបតែង', icon: '🛋️' },
-    { name: 'Books, Sports & Hobbies', khName: 'សៀវភៅ កីឡា និងចំណង់ចំណូលចិត្ត', icon: '⚽' },
-    { name: 'Pets', khName: 'សត្វចិញ្ចឹម', icon: '🐕' },
-    { name: 'Foods', khName: 'អាហារ', icon: '🍕' },
-    { name: 'Electronics', khName: 'អេឡិចត្រូនិច', icon: '🔌' },
-    { name: 'Fashion', khName: 'ម៉ូដ', icon: '👔' },
-    { name: 'Home & Garden', khName: 'ផ្ទះ និងសួន', icon: '🏡' },
-    { name: 'Vehicles', khName: 'យានយន្ត', icon: '🚙' },
-    { name: 'Sports', khName: 'កីឡា', icon: '🏀' },
-    { name: 'Hobbies', khName: 'ចំណង់ចំណូលចិត្ត', icon: '🎨' },
-    { name: 'Other', khName: 'ផ្សេងៗ', icon: '📦' },
-  ];
-
+    { 
+        name: '', 
+        khName: 'មើលទាំងអស់', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/1006/1006771.png' 
+    },
+    { 
+        name: 'Cars and Vehicles', 
+        khName: 'ឡាននិងយានជំនិះ', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/744/744465.png' 
+    },
+    { 
+        name: 'Phones & Tablets', 
+        khName: 'ទូរស័ព្ទនិងថេប្លេត', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/0/191.png' 
+    },
+    { 
+        name: 'Computers & Accessories', 
+        khName: 'កុំព្យូទ័រនិងគ្រឿងបន្លាស់', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/747/747310.png' 
+    },
+    { 
+        name: 'Electronics & Appliances', 
+        khName: 'អេឡិចត្រូនិចនិងឧបករណ៍', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/3242/3242257.png' 
+    },
+    { 
+        name: 'House & Land', 
+        khName: 'ផ្ទះនិងដី', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/619/619032.png' 
+    },
+    { 
+        name: 'Jobs', 
+        khName: 'ការងារ', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/1006/1006771.png' 
+    },
+    { 
+        name: 'Services', 
+        khName: 'សេវាកម្ម', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/3242/3242257.png' 
+    },
+    { 
+        name: 'Fashion & Beauty', 
+        khName: 'ម៉ូដនិងសម្ផស្ស', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/2116/2116899.png' 
+    },
+    { 
+        name: 'Furniture & Decor', 
+        khName: 'គ្រឿងសង្ហារិមនិងការតុបតែង', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/2374/2374888.png' 
+    },
+    { 
+        name: 'Books, Sports & Hobbies', 
+        khName: 'សៀវភៅ កីឡា និងចំណង់ចំណូលចិត្ត', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/857/857455.png' 
+    },
+    { 
+        name: 'Pets', 
+        khName: 'សត្វចិញ្ចឹម', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/616/616408.png' 
+    },
+    { 
+        name: 'Foods', 
+        khName: 'អាហារ', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/878/878052.png' 
+    },
+    { 
+        name: 'Electronics', 
+        khName: 'អេឡិចត្រូនិច', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/3659/3659898.png' 
+    },
+    { 
+        name: 'Fashion', 
+        khName: 'ម៉ូដ', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/235/235346.png' 
+    },
+    { 
+        name: 'Home & Garden', 
+        khName: 'ផ្ទះ និងសួន', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/2541/2541973.png' 
+    },
+    { 
+        name: 'Vehicles', 
+        khName: 'យានយន្ត', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/3079/3079035.png' 
+    },
+    { 
+        name: 'Sports', 
+        khName: 'កីឡា', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/857/857455.png' 
+    },
+    { 
+        name: 'Hobbies', 
+        khName: 'ចំណង់ចំណូលចិត្ត', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/2936/2936737.png' 
+    },
+    { 
+        name: 'Other', 
+        khName: 'ផ្សេងៗ', 
+        icon: 'https://cdn-icons-png.flaticon.com/512/1828/1828911.png' 
+    },
+];
   const categoryMap = {
     'Cars and Vehicles': 'ឡាននិងយានជំនិះ',
     'Phones & Tablets': 'ទូរស័ព្ទនិងថេប្លេត',
@@ -142,13 +221,15 @@ const Home = () => {
             <div className="category-grid">
               {categories.map((category) => (
                 <button
-                  key={category.name}
-                  onClick={() => handleCategoryClick(category.name)}
-                  className={`category-button ${selectedCategory === category.name ? 'category-button--selected' : ''}`}
-                >
-                  <span className="category-icon">{category.icon}</span>
-                  <span className="category-name">{category.khName}</span>
-                </button>
+    key={category.name}
+    onClick={() => handleCategoryClick(category.name)}
+    className={`category-button ${selectedCategory === category.name ? 'category-button--selected' : ''}`}
+>
+    <div className="category-icon">
+        <img src={category.icon} alt={category.khName} />
+    </div>
+    <span className="category-name">{category.khName}</span>
+</button>
               ))}
             </div>
             <div className="all-categories-container">

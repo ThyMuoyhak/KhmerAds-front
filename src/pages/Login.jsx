@@ -220,7 +220,7 @@ const Login = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: 'Kantumruy', 'Arial', sans-serif;
+          font-family: 'Khmer', 'Arial', sans-serif;
         }
 
         .form-container {

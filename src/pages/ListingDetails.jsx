@@ -346,17 +346,7 @@ const ListingDetails = () => {
     <div className="listing-details-container">
       <div className="listing-details-content">
         {/* Real-time Cambodia Time Display */}
-        <div className="time-display">
-          <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span>ពេលវេលានៅកម្ពុជា: {getCurrentCambodianTime()}</span>
-        </div>
+        
 
         {/* Breadcrumb */}
         <nav className="breadcrumb" aria-label="Breadcrumb">

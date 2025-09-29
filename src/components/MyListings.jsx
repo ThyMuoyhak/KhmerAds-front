@@ -25,21 +25,6 @@ const MyListings = () => {
   const [previewCoverBanner, setPreviewCoverBanner] = useState(null);
   const [formErrors, setFormErrors] = useState({});
 
-  // CSS Variables matching your style
-  const cssVariables = {
-    '--primary-color': '#1e40af',
-    '--accent-color': '#3b82f6',
-    '--text-primary': '#111827',
-    '--text-secondary': '#6b7280',
-    '--background': '#f8fafc',
-    '--surface': '#ffffff',
-    '--border': '#e5e7eb',
-    '--shadow-sm': '0 2px 4px rgba(0, 0, 0, 0.05)',
-    '--shadow-md': '0 4px 12px rgba(0, 0, 0, 0.08)',
-    '--transition': 'all 0.3s ease',
-    '--error-color': '#dc2626'
-  };
-
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return 'មិនមានកាលបរិច្ឆេទ';
     try {
@@ -80,9 +65,8 @@ const MyListings = () => {
     return null;
   };
 
-  // Sort listings to show the last one first (reverse order)
   const getSortedListings = () => {
-    return [...listings].reverse(); // Reverse the array to show last item first
+    return [...listings].reverse();
   };
 
   const fetchData = useCallback(async () => {
@@ -251,60 +235,18 @@ const MyListings = () => {
 
   if (loading) {
     return (
-      <div style={{
-        background: cssVariables['--background'],
-        padding: '2rem 1rem',
-        minHeight: '100vh',
-        fontFamily: "'Kantumruy', 'Arial', sans-serif"
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{
-            background: cssVariables['--surface'],
-            border: `1px solid ${cssVariables['--border']}`,
-            borderRadius: '12px',
-            padding: '2rem',
-            boxShadow: cssVariables['--shadow-sm']
-          }}>
-            <div style={{
-              height: '2rem',
-              background: cssVariables['--border'],
-              borderRadius: '8px',
-              marginBottom: '2rem'
-            }} />
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(5, 1fr)',
-              gap: '1.5rem'
-            }}>
+      <div className="my-listings-container">
+        <div className="my-listings-wrapper">
+          <div className="loading-container">
+            <div className="loading-header"></div>
+            <div className="loading-grid">
               {[...Array(5)].map((_, index) => (
-                <div key={index} style={{
-                  background: cssVariables['--surface'],
-                  border: `1px solid ${cssVariables['--border']}`,
-                  borderRadius: '12px',
-                  overflow: 'hidden'
-                }}>
-                  <div style={{
-                    height: '10rem',
-                    background: cssVariables['--border'],
-                    borderRadius: '12px'
-                  }} />
-                  <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div style={{
-                      height: '0.875rem',
-                      background: cssVariables['--border'],
-                      borderRadius: '4px'
-                    }} />
-                    <div style={{
-                      height: '0.875rem',
-                      background: cssVariables['--border'],
-                      borderRadius: '4px',
-                      width: '60%'
-                    }} />
-                    <div style={{
-                      height: '0.875rem',
-                      background: cssVariables['--border'],
-                      borderRadius: '4px'
-                    }} />
+                <div key={index} className="loading-card">
+                  <div className="loading-image"></div>
+                  <div className="loading-content">
+                    <div className="loading-line"></div>
+                    <div className="loading-line short"></div>
+                    <div className="loading-line"></div>
                   </div>
                 </div>
               ))}
@@ -318,90 +260,35 @@ const MyListings = () => {
   const sortedListings = getSortedListings();
 
   return (
-    <div style={{
-      background: cssVariables['--background'],
-      padding: '2rem 1rem',
-      minHeight: '100vh',
-      fontFamily: "'Kantumruy', 'Arial', sans-serif"
-    }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-
+    <div className="my-listings-container">
+      <div className="my-listings-wrapper">
+        
         {/* Header */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem',
-          flexWrap: 'wrap',
-          gap: '1rem'
-        }}>
-          <div>
-            <h1 style={{
-              fontSize: '2rem',
-              fontWeight: '600',
-              color: cssVariables['--text-primary'],
-              margin: 0
-            }}>
-              ការផ្សាយរបស់ខ្ញុំ
-            </h1>
+        <div className="listings-header">
+          <div className="header-content">
+            <h1>ការផ្សាយរបស់ខ្ញុំ</h1>
             {user && (
-              <p style={{
-                fontSize: '0.9rem',
-                color: cssVariables['--text-secondary'],
-                marginTop: '0.5rem',
-                margin: 0
-              }}>
+              <p className="welcome-text">
                 សូមស្វាគមន៍, {user.firstname} {user.lastname || ''}
               </p>
             )}
           </div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <Link to="/post-ad" style={{
-              padding: '0.75rem 1.5rem',
-              background: cssVariables['--accent-color'],
-              color: cssVariables['--surface'],
-              borderRadius: '8px',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              textDecoration: 'none',
-              transition: cssVariables['--transition']
-            }}>
-              បង្ហោះការផ្សាយថ្មី
-            </Link>
-          </div>
+          <Link to="/post-ad" className="post-button">
+            បង្ហោះការផ្សាយថ្មី
+          </Link>
         </div>
 
         {/* Error Message */}
         {(error || Object.keys(formErrors).length > 0) && (
-          <div style={{
-            background: '#fee2e2',
-            border: '1px solid #fecaca',
-            color: cssVariables['--error-color'],
-            padding: '1rem',
-            borderRadius: '8px',
-            marginBottom: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}>
-            <strong style={{ fontWeight: '600', fontSize: '0.9rem' }}>កំហុស:</strong>
-            <span style={{ fontSize: '0.9rem' }}>
-              {error || Object.values(formErrors).find((err) => err)}
-            </span>
+          <div className="error-alert">
+            <div className="error-content">
+              <strong className="error-strong">កំហុស:</strong>
+              <span className="error-message">
+                {error || Object.values(formErrors).find((err) => err)}
+              </span>
+            </div>
             {error && retryCount > 0 && (
-              <button
-                onClick={handleRetry}
-                style={{
-                  marginLeft: '1rem',
-                  color: cssVariables['--accent-color'],
-                  fontSize: '0.9rem',
-                  fontWeight: '500',
-                  textDecoration: 'underline',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer'
-                }}
-              >
+              <button onClick={handleRetry} className="retry-button">
                 ព្យាយាមម្តងទៀត
               </button>
             )}
@@ -410,134 +297,59 @@ const MyListings = () => {
 
         {/* User Profile and Listings */}
         {user ? (
-          <div style={{
-            background: cssVariables['--surface'],
-            border: `1px solid ${cssVariables['--border']}`,
-            borderRadius: '12px',
-            padding: '2rem',
-            boxShadow: cssVariables['--shadow-sm']
-          }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '2rem',
-              borderBottom: `1px solid ${cssVariables['--border']}`,
-              paddingBottom: '1rem'
-            }}>
-              <h2 style={{
-                fontSize: '1.25rem',
-                fontWeight: '600',
-                color: cssVariables['--text-primary'],
-                margin: 0
-              }}>
-                ព័ត៌មានផ្ទាល់ខ្លួន
-              </h2>
-              <button
-                onClick={handleEditToggle}
-                style={{
-                  padding: '0.75rem 1.5rem',
-                  background: cssVariables['--surface'],
-                  border: `1px solid ${cssVariables['--accent-color']}`,
-                  color: cssVariables['--accent-color'],
-                  borderRadius: '8px',
-                  fontSize: '0.9rem',
-                  fontWeight: '500',
-                  cursor: 'pointer',
-                  transition: cssVariables['--transition']
-                }}
-              >
+          <div className="main-content">
+            
+            {/* Profile Header */}
+            <div className="profile-header">
+              <h2 className="profile-title">ព័ត៌មានផ្ទាល់ខ្លួន</h2>
+              <button onClick={handleEditToggle} className="edit-toggle-button">
                 {isEditing ? 'បោះបង់' : 'កែប្រែ'}
               </button>
             </div>
 
+            {/* Edit Form */}
             {isEditing ? (
-              <form onSubmit={handleUpdateProfile} style={{ marginBottom: '2rem' }}>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '1.5rem'
-                }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label style={{
-                      fontSize: '0.9rem',
-                      fontWeight: '500',
-                      color: cssVariables['--text-secondary']
-                    }}>
-                      ឈ្មោះ:
-                    </label>
+              <form onSubmit={handleUpdateProfile} className="edit-form">
+                <div className="edit-form-grid">
+                  
+                  {/* First Name */}
+                  <div className="form-group">
+                    <label className="form-label">ឈ្មោះ:</label>
                     <input
                       type="text"
                       name="firstname"
                       value={editForm.firstname}
                       onChange={handleInputChange}
-                      style={{
-                        padding: '0.75rem',
-                        border: `1px solid ${formErrors.firstname ? cssVariables['--error-color'] : cssVariables['--border']}`,
-                        borderRadius: '8px',
-                        fontSize: '0.9rem',
-                        color: cssVariables['--text-primary'],
-                        background: cssVariables['--surface'],
-                        transition: cssVariables['--transition']
-                      }}
+                      className={`form-input ${formErrors.firstname ? 'form-input-error' : ''}`}
                     />
                     {formErrors.firstname && (
-                      <p style={{ fontSize: '0.75rem', color: cssVariables['--error-color'], margin: '0.25rem 0 0 0' }}>
-                        {formErrors.firstname}
-                      </p>
+                      <p className="form-error">{formErrors.firstname}</p>
                     )}
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label style={{
-                      fontSize: '0.9rem',
-                      fontWeight: '500',
-                      color: cssVariables['--text-secondary']
-                    }}>
-                      នាមគ្រួសារ:
-                    </label>
+                  {/* Last Name */}
+                  <div className="form-group">
+                    <label className="form-label">នាមគ្រួសារ:</label>
                     <input
                       type="text"
                       name="lastname"
                       value={editForm.lastname}
                       onChange={handleInputChange}
-                      style={{
-                        padding: '0.75rem',
-                        border: `1px solid ${formErrors.lastname ? cssVariables['--error-color'] : cssVariables['--border']}`,
-                        borderRadius: '8px',
-                        fontSize: '0.9rem',
-                        color: cssVariables['--text-primary'],
-                        background: cssVariables['--surface'],
-                        transition: cssVariables['--transition']
-                      }}
+                      className={`form-input ${formErrors.lastname ? 'form-input-error' : ''}`}
                     />
                     {formErrors.lastname && (
-                      <p style={{ fontSize: '0.75rem', color: cssVariables['--error-color'], margin: '0.25rem 0 0 0' }}>
-                        {formErrors.lastname}
-                      </p>
+                      <p className="form-error">{formErrors.lastname}</p>
                     )}
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label style={{
-                      fontSize: '0.9rem',
-                      fontWeight: '500',
-                      color: cssVariables['--text-secondary']
-                    }}>
-                      ភេទ:
-                    </label>
+                  {/* Gender */}
+                  <div className="form-group">
+                    <label className="form-label">ភេទ:</label>
                     <select
                       name="gender"
                       value={editForm.gender}
                       onChange={handleInputChange}
-                      style={{
-                        padding: '0.75rem',
-                        border: `1px solid ${cssVariables['--border']}`,
-                        borderRadius: '8px',
-                        fontSize: '0.9rem',
-                        color: cssVariables['--text-primary'],
-                        background: cssVariables['--surface']
-                      }}
+                      className="form-input"
                     >
                       <option value="">ជ្រើសរើស</option>
                       <option value="male">ប្រុស</option>
@@ -546,158 +358,78 @@ const MyListings = () => {
                     </select>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label style={{
-                      fontSize: '0.9rem',
-                      fontWeight: '500',
-                      color: cssVariables['--text-secondary']
-                    }}>
-                      លេខទូរស័ព្ទ:
-                    </label>
+                  {/* Phone Number */}
+                  <div className="form-group">
+                    <label className="form-label">លេខទូរស័ព្ទ:</label>
                     <input
                       type="text"
                       name="phonenumber"
                       value={editForm.phonenumber}
                       onChange={handleInputChange}
-                      style={{
-                        padding: '0.75rem',
-                        border: `1px solid ${formErrors.phonenumber ? cssVariables['--error-color'] : cssVariables['--border']}`,
-                        borderRadius: '8px',
-                        fontSize: '0.9rem',
-                        color: cssVariables['--text-primary'],
-                        background: cssVariables['--surface']
-                      }}
+                      className={`form-input ${formErrors.phonenumber ? 'form-input-error' : ''}`}
                     />
                     {formErrors.phonenumber && (
-                      <p style={{ fontSize: '0.75rem', color: cssVariables['--error-color'], margin: '0.25rem 0 0 0' }}>
-                        {formErrors.phonenumber}
-                      </p>
+                      <p className="form-error">{formErrors.phonenumber}</p>
                     )}
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', gridColumn: '1 / -1' }}>
-                    <label style={{
-                      fontSize: '0.9rem',
-                      fontWeight: '500',
-                      color: cssVariables['--text-secondary']
-                    }}>
-                      ប្រវត្តិ:
-                    </label>
+                  {/* Bio */}
+                  <div className="form-group full-width">
+                    <label className="form-label">ប្រវត្តិ:</label>
                     <textarea
                       name="bio"
                       value={editForm.bio}
                       onChange={handleInputChange}
-                      style={{
-                        padding: '0.75rem',
-                        border: `1px solid ${cssVariables['--border']}`,
-                        borderRadius: '8px',
-                        fontSize: '0.9rem',
-                        color: cssVariables['--text-primary'],
-                        background: cssVariables['--surface'],
-                        minHeight: '100px',
-                        resize: 'vertical'
-                      }}
+                      className="form-input"
                     />
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', gridColumn: '1 / -1' }}>
-                    <label style={{
-                      fontSize: '0.9rem',
-                      fontWeight: '500',
-                      color: cssVariables['--text-secondary']
-                    }}>
-                      រូបផ្ទាល់ខ្លួន:
-                    </label>
+                  {/* Profile Picture */}
+                  <div className="form-group full-width">
+                    <label className="form-label">រូបផ្ទាល់ខ្លួន:</label>
                     <input
                       type="file"
                       name="profile_picture"
                       accept="image/*"
                       onChange={handleImageChange}
-                      style={{
-                        padding: '0.75rem',
-                        border: `1px solid ${formErrors.profile_picture ? cssVariables['--error-color'] : cssVariables['--border']}`,
-                        borderRadius: '8px',
-                        fontSize: '0.9rem',
-                        background: cssVariables['--surface']
-                      }}
+                      className="file-input"
                     />
                     {previewProfilePic && (
-                      <img
-                        src={previewProfilePic}
-                        alt="Profile Preview"
-                        style={{
-                          marginTop: '0.5rem',
-                          borderRadius: '8px',
-                          border: `1px solid ${cssVariables['--border']}`,
-                          maxWidth: '8rem',
-                          height: '8rem',
-                          objectFit: 'cover'
-                        }}
-                      />
+                      <div className="image-preview-container">
+                        <img
+                          src={previewProfilePic}
+                          alt="Profile Preview"
+                          className="image-preview"
+                        />
+                      </div>
                     )}
                   </div>
+
                 </div>
 
-                <button
-                  type="submit"
-                  style={{
-                    width: '100%',
-                    padding: '1rem',
-                    background: cssVariables['--accent-color'],
-                    color: cssVariables['--surface'],
-                    borderRadius: '8px',
-                    fontSize: '0.9rem',
-                    fontWeight: '600',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: cssVariables['--transition'],
-                    marginTop: '1.5rem'
-                  }}
-                >
+                <button type="submit" className="submit-button">
                   រក្សាទុក
                 </button>
               </form>
             ) : (
-              <>
-                <div style={{ position: 'relative', marginBottom: '3rem' }}>
-                  <div style={{
-                    height: '12rem',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    border: `1px solid ${cssVariables['--border']}`,
-                    background: cssVariables['--background']
-                  }}>
+              /* Profile Display */
+              <div className="profile-display">
+                
+                {/* Cover and Avatar */}
+                <div className="cover-section">
+                  <div className="cover-image">
                     {user.cover_banner && (
                       <img
                         src={getImageUrl(user.cover_banner)}
                         alt="Cover"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     )}
                   </div>
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '-2rem',
-                    left: '1.5rem',
-                    width: '8rem',
-                    height: '8rem',
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    border: `4px solid ${cssVariables['--surface']}`,
-                    boxShadow: cssVariables['--shadow-sm'],
-                    background: cssVariables['--accent-color'],
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: cssVariables['--surface'],
-                    fontSize: '1.25rem',
-                    fontWeight: '500'
-                  }}>
+                  <div className="profile-avatar">
                     {user.profile_picture ? (
                       <img
                         src={getImageUrl(user.profile_picture)}
                         alt="Profile"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     ) : (
                       `${user.firstname?.charAt(0)?.toUpperCase() || '?'}${user.lastname?.charAt(0)?.toUpperCase() || ''}`
@@ -705,240 +437,108 @@ const MyListings = () => {
                   </div>
                 </div>
 
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '2rem',
-                  marginBottom: '2rem'
-                }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <h3 style={{
-                      fontSize: '1.125rem',
-                      fontWeight: '600',
-                      color: cssVariables['--text-primary'],
-                      borderBottom: `1px solid ${cssVariables['--border']}`,
-                      paddingBottom: '0.5rem',
-                      margin: 0
-                    }}>
-                      ព័ត៌មានមូលដ្ឋាន
-                    </h3>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                      <span style={{ width: '30%', fontSize: '0.9rem', color: cssVariables['--text-secondary'] }}>
-                        ឈ្មោះ:
-                      </span>
-                      <span style={{ fontSize: '0.9rem', color: cssVariables['--text-primary'], fontWeight: '500' }}>
+                {/* Profile Info */}
+                <div className="profile-info-grid">
+                  
+                  {/* Basic Info */}
+                  <div className="info-section">
+                    <h3>ព័ត៌មានមូលដ្ឋាន</h3>
+                    <div className="info-row">
+                      <span className="info-label">ឈ្មោះ:</span>
+                      <span className="info-value">
                         {user.firstname} {user.lastname || ''}
                       </span>
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                      <span style={{ width: '30%', fontSize: '0.9rem', color: cssVariables['--text-secondary'] }}>
-                        ភេទ:
-                      </span>
-                      <span style={{ fontSize: '0.9rem', color: cssVariables['--text-primary'], fontWeight: '500' }}>
-                        {user.gender || 'N/A'}
+                    <div className="info-row">
+                      <span className="info-label">ភេទ:</span>
+                      <span className="info-value">
+                        {user.gender === 'male' ? 'ប្រុស' : 
+                         user.gender === 'female' ? 'ស្រី' : 
+                         user.gender || 'N/A'}
                       </span>
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                      <span style={{ width: '30%', fontSize: '0.9rem', color: cssVariables['--text-secondary'] }}>
-                        អ៊ីមែល:
-                      </span>
-                      <span style={{ fontSize: '0.9rem', color: cssVariables['--text-primary'], fontWeight: '500' }}>
-                        {user.email}
-                      </span>
+                    <div className="info-row">
+                      <span className="info-label">អ៊ីមែល:</span>
+                      <span className="info-value">{user.email}</span>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <h3 style={{
-                      fontSize: '1.125rem',
-                      fontWeight: '600',
-                      color: cssVariables['--text-primary'],
-                      borderBottom: `1px solid ${cssVariables['--border']}`,
-                      paddingBottom: '0.5rem',
-                      margin: 0
-                    }}>
-                      ព័ត៌មានបន្ថែម
-                    </h3>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                      <span style={{ width: '30%', fontSize: '0.9rem', color: cssVariables['--text-secondary'] }}>
-                        លេខទូរស័ព្ទ:
-                      </span>
-                      <span style={{ fontSize: '0.9rem', color: cssVariables['--text-primary'], fontWeight: '500' }}>
-                        {user.phonenumber || 'N/A'}
-                      </span>
+                  {/* Additional Info */}
+                  <div className="info-section">
+                    <h3>ព័ត៌មានបន្ថែម</h3>
+                    <div className="info-row">
+                      <span className="info-label">លេខទូរស័ព្ទ:</span>
+                      <span className="info-value">{user.phonenumber || 'N/A'}</span>
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                      <span style={{ width: '30%', fontSize: '0.9rem', color: cssVariables['--text-secondary'] }}>
-                        ប្រវត្តិ:
-                      </span>
-                      <span style={{ fontSize: '0.9rem', color: cssVariables['--text-primary'], fontWeight: '500' }}>
-                        {user.bio || 'N/A'}
-                      </span>
+                    <div className="info-row">
+                      <span className="info-label">ប្រវត្តិ:</span>
+                      <span className="info-value">{user.bio || 'N/A'}</span>
                     </div>
                   </div>
+
                 </div>
-              </>
+              </div>
             )}
 
-            <div style={{
-              borderTop: `1px solid ${cssVariables['--border']}`,
-              paddingTop: '2rem'
-            }}>
-              <h3 style={{
-                fontSize: '1.25rem',
-                fontWeight: '600',
-                color: cssVariables['--text-primary'],
-                margin: '0 0 1.5rem 0'
-              }}>
+            {/* Listings Section */}
+            <div className="listings-section">
+              <h3 className="listings-title">
                 ការផ្សាយរបស់ខ្ញុំ ({listings.length})
               </h3>
               
               {sortedListings.length > 0 ? (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(5, 1fr)',
-                  gap: '1.5rem'
-                }}>
+                <div className="listings-grid">
                   {sortedListings.map((listing) => {
                     const imageUrl = getImageUrl(getFirstImage(listing));
                     return (
-                      <div key={listing.id} style={{
-                        background: cssVariables['--surface'],
-                        border: `1px solid ${cssVariables['--border']}`,
-                        borderRadius: '12px',
-                        overflow: 'hidden',
-                        boxShadow: cssVariables['--shadow-sm'],
-                        transition: cssVariables['--transition']
-                      }}>
-                        <div style={{ height: '10rem', overflow: 'hidden' }}>
+                      <div key={listing.id} className="listing-card">
+                        
+                        {/* Listing Image */}
+                        <div className="listing-image">
                           {imageUrl ? (
                             <img
                               src={imageUrl}
                               alt={listing.title}
-                              style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover'
-                              }}
                             />
                           ) : (
-                            <div style={{
-                              width: '100%',
-                              height: '100%',
-                              background: cssVariables['--background'],
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              flexDirection: 'column',
-                              gap: '0.5rem'
-                            }}>
-                              <svg
-                                style={{ width: '2rem', height: '2rem', color: cssVariables['--text-secondary'] }}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                />
-                              </svg>
-                                                          <span style={{ fontSize: '0.75rem', color: cssVariables['--text-secondary'] }}>
-                                គ្មានរូបភាព
-                              </span>
+                            <div className="no-image">
+                              <ImageIcon className="no-image-icon" />
+                              <span className="no-image-text">គ្មានរូបភាព</span>
                             </div>
                           )}
                         </div>
                         
-                        <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                          <h4 style={{
-                            fontSize: '0.875rem',
-                            fontWeight: '600',
-                            color: cssVariables['--text-primary'],
-                            margin: 0,
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden',
-                            minHeight: '2.5rem'
-                          }}>
-                            {listing.title}
-                          </h4>
+                        {/* Listing Content */}
+                        <div className="listing-content">
+                          <h4 className="listing-title">{listing.title}</h4>
                           
                           {listing.price && (
-                            <p style={{
-                              fontSize: '1rem',
-                              fontWeight: '700',
-                              color: cssVariables['--accent-color'],
-                              margin: 0
-                            }}>
+                            <p className="listing-price">
                               ${Number(listing.price).toFixed(2)}
                             </p>
                           )}
                           
-                          <p style={{
-                            fontSize: '0.75rem',
-                            color: cssVariables['--text-secondary'],
-                            lineHeight: '1.4',
-                            margin: 0,
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden',
-                            minHeight: '2.1rem'
-                          }}>
+                          <p className="listing-description">
                             {truncateDescription(listing.description)}
                           </p>
                           
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: '0.7rem',
-                            color: cssVariables['--text-secondary'],
-                            gap: '0.25rem',
-                            marginTop: '0.25rem'
-                          }}>
-                            <svg style={{ width: '0.75rem', height: '0.75rem', color: cssVariables['--accent-color'] }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                          <div className="listing-time">
+                            <TimeIcon className="time-icon" />
                             <span>{formatTimestamp(listing.created_at)}</span>
                           </div>
                           
-                          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                          {/* Action Buttons */}
+                          <div className="listing-actions">
                             <button
                               onClick={() => handleUpdate(listing.id)}
-                              style={{
-                                flex: 1,
-                                padding: '0.5rem',
-                                background: cssVariables['--surface'],
-                                border: `1px solid ${cssVariables['--accent-color']}`,
-                                color: cssVariables['--accent-color'],
-                                borderRadius: '6px',
-                                fontSize: '0.75rem',
-                                fontWeight: '500',
-                                cursor: 'pointer',
-                                transition: cssVariables['--transition']
-                              }}
+                              className="action-button edit-button"
                             >
                               កែ
                             </button>
                             <button
                               onClick={() => handleDelete(listing.id)}
                               disabled={deletingId === listing.id}
-                              style={{
-                                flex: 1,
-                                padding: '0.5rem',
-                                background: cssVariables['--surface'],
-                                border: `1px solid ${cssVariables['--error-color']}`,
-                                color: cssVariables['--error-color'],
-                                borderRadius: '6px',
-                                fontSize: '0.75rem',
-                                fontWeight: '500',
-                                cursor: 'pointer',
-                                transition: cssVariables['--transition']
-                              }}
+                              className="action-button delete-button"
                             >
                               {deletingId === listing.id ? 'កំពុងលុប...' : 'លុប'}
                             </button>
@@ -949,36 +549,11 @@ const MyListings = () => {
                   })}
                 </div>
               ) : (
-                <div style={{
-                  textAlign: 'center',
-                  padding: '3rem',
-                  background: cssVariables['--surface'],
-                  border: `1px solid ${cssVariables['--border']}`,
-                  borderRadius: '8px',
-                  boxShadow: cssVariables['--shadow-sm'],
-                  marginTop: '2rem'
-                }}>
-                  <svg
-                    style={{ width: '4rem', height: '4rem', color: cssVariables['--accent-color'], margin: '0 auto 1rem' }}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  <p style={{ fontSize: '0.9rem', color: cssVariables['--text-secondary'], marginBottom: '1rem' }}>
-                    គ្មានការផ្សាយ
-                  </p>
-                  <Link to="/post-ad" style={{
-                    padding: '0.75rem 1.5rem',
-                    background: cssVariables['--accent-color'],
-                    color: cssVariables['--surface'],
-                    borderRadius: '8px',
-                    fontSize: '0.9rem',
-                    fontWeight: '500',
-                    textDecoration: 'none',
-                    transition: cssVariables['--transition']
-                  }}>
+                /* Empty State */
+                <div className="empty-state">
+                  <PlusIcon className="empty-icon" />
+                  <p className="empty-text">គ្មានការផ្សាយ</p>
+                  <Link to="/post-ad" className="post-button">
                     បង្ហោះការផ្សាយថ្មី
                   </Link>
                 </div>
@@ -986,135 +561,783 @@ const MyListings = () => {
             </div>
           </div>
         ) : (
-          <div style={{
-            textAlign: 'center',
-            padding: '3rem',
-            background: cssVariables['--surface'],
-            border: `1px solid ${cssVariables['--border']}`,
-            borderRadius: '8px',
-            boxShadow: cssVariables['--shadow-sm']
-          }}>
-            <svg
-              style={{ width: '4rem', height: '4rem', color: cssVariables['--accent-color'], margin: '0 auto 1rem' }}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p style={{ fontSize: '0.9rem', color: cssVariables['--text-secondary'], marginBottom: '1rem' }}>
-              ទាញយកព័ត៌មានបរាជ័យ។
-            </p>
-            <button
-              onClick={handleRetry}
-              style={{
-                padding: '0.75rem 1.5rem',
-                background: cssVariables['--accent-color'],
-                color: cssVariables['--surface'],
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                fontWeight: '500',
-                border: 'none',
-                cursor: 'pointer',
-                transition: cssVariables['--transition']
-              }}
-            >
+          /* Error State */
+          <div className="empty-state">
+            <TimeIcon className="empty-icon" />
+            <p className="empty-text">ទាញយកព័ត៌មានបរាជ័យ។</p>
+            <button onClick={handleRetry} className="post-button">
               ព្យាយាមម្តងទៀត
             </button>
           </div>
         )}
       </div>
 
-      <style>
-        {`
-          @media (max-width: 1400px) {
-            .listings-grid {
-              grid-template-columns: repeat(4, 1fr) !important;
-            }
-          }
+      <style jsx>{`
+        .my-listings-container {
+          background: #f8fafc;
+          padding: 2rem 1rem;
+          min-height: 100vh;
+          font-family: 'Inter', 'Kantumruy', sans-serif;
+        }
 
-          @media (max-width: 1200px) {
-            .listings-grid {
-              grid-template-columns: repeat(3, 1fr) !important;
-            }
-          }
+        .my-listings-wrapper {
+          max-width: 1400px;
+          margin: 0 auto;
+        }
 
-          @media (max-width: 900px) {
-            .listings-grid {
-              grid-template-columns: repeat(2, 1fr) !important;
-            }
-          }
+        /* Header */
+        .listings-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 2rem;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
 
-          @media (max-width: 600px) {
-            .listings-grid {
-              grid-template-columns: 1fr !important;
-            }
-            
-            .profile-info-grid {
-              grid-template-columns: 1fr !important;
-            }
-            
-            .edit-form-grid {
-              grid-template-columns: 1fr !important;
-            }
-          }
+        .header-content h1 {
+          font-size: 2rem;
+          font-weight: 600;
+          color: #111827;
+          margin: 0;
+        }
 
-          .edit-toggle-button:hover,
-          .post-button:hover,
-          .submit-button:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-          }
+        .welcome-text {
+          font-size: 0.9rem;
+          color: #6b7280;
+          margin-top: 0.5rem;
+          margin: 0;
+        }
 
-          .edit-toggle-button:hover {
-            background: ${cssVariables['--accent-color']};
-            color: ${cssVariables['--surface']};
-          }
+        .post-button {
+          padding: 0.75rem 1.5rem;
+          background: #3b82f6;
+          color: #ffffff;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          display: inline-block;
+        }
 
-          .post-button:hover,
-          .submit-button:hover {
-            background: ${cssVariables['--primary-color']};
-          }
+        .post-button:hover {
+          background: #1e40af;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
 
-          .action-button:hover {
-            transform: translateY(-1px);
-          }
+        /* Error Message */
+        .error-alert {
+          background: #fee2e2;
+          border: 1px solid #fecaca;
+          color: #dc2626;
+          padding: 1rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
 
-          .action-button.edit:hover {
-            background: ${cssVariables['--accent-color']};
-            color: ${cssVariables['--surface']};
-          }
+        .error-content {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          flex: 1;
+        }
 
-          .action-button.delete:hover {
-            background: ${cssVariables['--error-color']};
-            color: ${cssVariables['--surface']};
-          }
+        .error-strong {
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
 
-          input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: ${cssVariables['--accent-color']};
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-          }
+        .error-message {
+          font-size: 0.9rem;
+        }
 
-          .listing-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-          }
+        .retry-button {
+          margin-left: 1rem;
+          color: #3b82f6;
+          font-size: 0.9rem;
+          font-weight: 500;
+          text-decoration: underline;
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
 
-          /* Animation for new listings */
-          @keyframes highlightNew {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.02); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-          }
+        /* Main Content */
+        .main-content {
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 2rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
 
-          .listing-card:first-child {
-            animation: highlightNew 0.6s ease-out;
+        /* Profile Header */
+        .profile-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 2rem;
+          border-bottom: 1px solid #e5e7eb;
+          padding-bottom: 1rem;
+        }
+
+        .profile-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #111827;
+          margin: 0;
+        }
+
+        .edit-toggle-button {
+          padding: 0.75rem 1.5rem;
+          background: #ffffff;
+          border: 1px solid #3b82f6;
+          color: #3b82f6;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .edit-toggle-button:hover {
+          background: #3b82f6;
+          color: #ffffff;
+          transform: translateY(-1px);
+        }
+
+        /* Edit Form */
+        .edit-form {
+          margin-bottom: 2rem;
+        }
+
+        .edit-form-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .form-label {
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: #6b7280;
+        }
+
+        .form-input {
+          padding: 0.75rem;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          color: #111827;
+          background: #ffffff;
+          transition: all 0.3s ease;
+          font-family: inherit;
+        }
+
+        .form-input:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-input-error {
+          border-color: #ef4444;
+          box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .form-error {
+          font-size: 0.75rem;
+          color: #ef4444;
+          margin: 0.25rem 0 0 0;
+        }
+
+        .full-width {
+          grid-column: 1 / -1;
+        }
+
+        textarea.form-input {
+          min-height: 100px;
+          resize: vertical;
+        }
+
+        select.form-input {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+          background-position: right 0.5rem center;
+          background-repeat: no-repeat;
+          background-size: 1.5em 1.5em;
+          padding-right: 2.5rem;
+        }
+
+        .submit-button {
+          width: 100%;
+          padding: 1rem;
+          background: #3b82f6;
+          color: #ffffff;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 600;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-top: 1.5rem;
+        }
+
+        .submit-button:hover {
+          background: #1e40af;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Profile Display */
+        .profile-display {
+          margin-bottom: 2rem;
+        }
+
+        .cover-section {
+          position: relative;
+          margin-bottom: 3rem;
+        }
+
+        .cover-image {
+          height: 12rem;
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid #e5e7eb;
+          background: #f8fafc;
+        }
+
+        .cover-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .profile-avatar {
+          position: absolute;
+          bottom: -2rem;
+          left: 1.5rem;
+          width: 8rem;
+          height: 8rem;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 4px solid #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          background: #3b82f6;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
+          font-size: 1.25rem;
+          font-weight: 500;
+        }
+
+        .profile-avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .profile-info-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        .info-section h3 {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #111827;
+          border-bottom: 1px solid #e5e7eb;
+          padding-bottom: 0.5rem;
+          margin: 0 0 1rem 0;
+        }
+
+        .info-row {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .info-label {
+          width: 30%;
+          font-size: 0.9rem;
+          color: #6b7280;
+        }
+
+        .info-value {
+          font-size: 0.9rem;
+          color: #111827;
+          font-weight: 500;
+        }
+
+        /* Listings Section */
+        .listings-section {
+          border-top: 1px solid #e5e7eb;
+          padding-top: 2rem;
+        }
+
+        .listings-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #111827;
+          margin: 0 0 1.5rem 0;
+        }
+
+        .listings-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+        }
+
+        /* Listing Card */
+        .listing-card {
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          transition: all 0.3s ease;
+        }
+
+        .listing-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .listing-image {
+          height: 10rem;
+          overflow: hidden;
+        }
+
+        .listing-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .no-image {
+          width: 100%;
+          height: 100%;
+          background: #f8fafc;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .no-image-icon {
+          width: 2rem;
+          height: 2rem;
+          color: #6b7280;
+        }
+
+        .no-image-text {
+          font-size: 0.75rem;
+          color: #6b7280;
+        }
+
+        .listing-content {
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .listing-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #111827;
+          margin: 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          min-height: 2.5rem;
+        }
+
+        .listing-price {
+          font-size: 1rem;
+          font-weight: 700;
+          color: #3b82f6;
+          margin: 0;
+        }
+
+        .listing-description {
+          font-size: 0.75rem;
+          color: #6b7280;
+          line-height: 1.4;
+          margin: 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          min-height: 2.1rem;
+        }
+
+        .listing-time {
+          display: flex;
+          align-items: center;
+          font-size: 0.7rem;
+          color: #6b7280;
+          gap: 0.25rem;
+          margin-top: 0.25rem;
+        }
+
+        .time-icon {
+          width: 0.75rem;
+          height: 0.75rem;
+          color: #3b82f6;
+        }
+
+        .listing-actions {
+          display: flex;
+          gap: 0.5rem;
+          margin-top: 0.5rem;
+        }
+
+        .action-button {
+          flex: 1;
+          padding: 0.5rem;
+          background: #ffffff;
+          border-radius: 6px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 1px solid;
+        }
+
+        .edit-button {
+          border-color: #3b82f6;
+          color: #3b82f6;
+        }
+
+        .edit-button:hover {
+          background: #3b82f6;
+          color: #ffffff;
+          transform: translateY(-1px);
+        }
+
+        .delete-button {
+          border-color: #ef4444;
+          color: #ef4444;
+        }
+
+        .delete-button:hover {
+          background: #ef4444;
+          color: #ffffff;
+          transform: translateY(-1px);
+        }
+
+        .delete-button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        /* Empty States */
+        .empty-state {
+          text-align: center;
+          padding: 3rem;
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          margin-top: 2rem;
+        }
+
+        .empty-icon {
+          width: 4rem;
+          height: 4rem;
+          color: #3b82f6;
+          margin: 0 auto 1rem;
+        }
+
+        .empty-text {
+          font-size: 0.9rem;
+          color: #6b7280;
+          margin-bottom: 1rem;
+        }
+
+        /* Loading States */
+        .loading-container {
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 2rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .loading-header {
+          height: 2rem;
+          background: #e5e7eb;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          animation: pulse 2s infinite;
+        }
+
+        .loading-grid {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 1.5rem;
+        }
+
+        .loading-card {
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          overflow: hidden;
+        }
+
+        .loading-image {
+          height: 10rem;
+          background: #e5e7eb;
+          border-radius: 12px;
+          animation: pulse 2s infinite;
+        }
+
+        .loading-content {
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .loading-line {
+          height: 0.875rem;
+          background: #e5e7eb;
+          border-radius: 4px;
+          animation: pulse 2s infinite;
+        }
+
+        .loading-line.short {
+          width: 60%;
+        }
+
+        @keyframes pulse {
+          0% { opacity: 1; }
+          50% { opacity: 0.5; }
+          100% { opacity: 1; }
+        }
+
+        /* File Input */
+        .file-input {
+          padding: 0.75rem;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          background: #ffffff;
+          cursor: pointer;
+        }
+
+        .file-input:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Image Preview */
+        .image-preview-container {
+          margin-top: 0.5rem;
+        }
+
+        .image-preview {
+          border-radius: 8px;
+          border: 1px solid #e5e7eb;
+          max-width: 8rem;
+          height: 8rem;
+          object-fit: cover;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+          .listings-grid {
+            grid-template-columns: repeat(4, 1fr);
           }
-        `}
-      </style>
+        }
+
+        @media (max-width: 1200px) {
+          .listings-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 900px) {
+          .listings-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          
+          .profile-info-grid,
+          .edit-form-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .my-listings-container {
+            padding: 1rem;
+          }
+          
+          .main-content {
+            padding: 1.5rem;
+          }
+          
+          .listings-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .listings-header {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          
+          .profile-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+          }
+          
+          .profile-avatar {
+            position: static;
+            margin: 0 auto 1rem;
+          }
+          
+          .cover-section {
+            margin-bottom: 1rem;
+          }
+          
+          .info-row {
+            flex-direction: column;
+            gap: 0.25rem;
+          }
+          
+          .info-label {
+            width: 100%;
+          }
+          
+          .error-alert {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+          }
+          
+          .retry-button {
+            margin-left: 0;
+          }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+          .my-listings-container {
+            background: #1e293b;
+          }
+          
+          .main-content,
+          .listing-card,
+          .empty-state,
+          .loading-container {
+            background: #334155;
+            border-color: #475569;
+          }
+          
+          .header-content h1,
+          .profile-title,
+          .listings-title,
+          .listing-title,
+          .info-value {
+            color: #f1f5f9;
+          }
+          
+          .welcome-text,
+          .form-label,
+          .info-label,
+          .listing-description,
+          .listing-time,
+          .empty-text {
+            color: #94a3b8;
+          }
+          
+          .form-input,
+          .file-input {
+            background: #475569;
+            border-color: #64748b;
+            color: #e2e8f0;
+          }
+          
+          .form-input:focus,
+          .file-input:focus {
+            border-color: #3b82f6;
+            background: #475569;
+          }
+          
+          .no-image,
+          .loading-image,
+          .loading-header,
+          .loading-line {
+            background: #475569;
+          }
+          
+          .edit-toggle-button {
+            background: #334155;
+            color: #3b82f6;
+          }
+          
+          .action-button {
+            background: #334155;
+          }
+          
+          .image-preview {
+            border-color: #475569;
+          }
+        }
+
+        /* Animation for new listings */
+        @keyframes highlightNew {
+          0% { transform: scale(0.95); opacity: 0.8; }
+          50% { transform: scale(1.02); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+
+        .listing-card:first-child {
+          animation: highlightNew 0.6s ease-out;
+        }
+      `}</style>
     </div>
   );
 };
+
+// Icon Components
+const ImageIcon = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  </svg>
+);
+
+const TimeIcon = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+const PlusIcon = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+  </svg>
+);
 
 export default MyListings;

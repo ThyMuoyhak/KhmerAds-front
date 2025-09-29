@@ -7,117 +7,34 @@ const Footer = () => {
   const handleSubscribe = (e) => {
     e.preventDefault();
     // Handle subscription logic here
+    console.log('Subscribed with email:', email);
     setEmail('');
   };
 
-  // CSS Variables matching your style
-  const cssVariables = {
-    '--primary-color': '#1e40af',
-    '--accent-color': '#3b82f6',
-    '--text-primary': '#111827',
-    '--text-secondary': '#6b7280',
-    '--background': '#f8fafc',
-    '--surface': '#ffffff',
-    '--border': '#e5e7eb',
-    '--shadow-sm': '0 2px 4px rgba(0, 0, 0, 0.05)',
-    '--shadow-md': '0 4px 12px rgba(0, 0, 0, 0.08)',
-    '--transition': 'all 0.3s ease',
-    '--error-color': '#dc2626'
-  };
-
   return (
-    <footer style={{
-      background: cssVariables['--surface'],
-      borderTop: `1px solid ${cssVariables['--border']}`,
-      marginTop: 'auto',
-      fontFamily: "'Noto Sans Khmer', 'Arial', sans-serif"
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '0 1rem'
-      }}>
+    <footer className="footer">
+      <div className="footer-container">
         {/* Main Footer Content */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr',
-          gap: '2rem',
-          padding: '3rem 0 2rem'
-        }}>
+        <div className="footer-content">
           {/* Brand Section */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <Link to="/" style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                textDecoration: 'none',
-                color: cssVariables['--primary-color'],
-                fontWeight: '700',
-                fontSize: '1.5rem'
-              }}>
-                <span style={{ fontSize: '1.75rem' }}>🏠</span>
-                <span style={{
-                  background: 'linear-gradient(135deg, #1e40af, #3b82f6)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }}>
-                  Khmer365
-                </span>
+          <div className="footer-section">
+            <div className="brand-content">
+              <Link to="/" className="footer-logo">
+                <HomeIcon />
+                <span>Khmer365</span>
               </Link>
-              <p style={{
-                color: cssVariables['--text-secondary'],
-                fontSize: '0.9rem',
-                lineHeight: '1.6',
-                margin: 0
-              }}>
+              <p className="footer-description">
                 ទីផ្សារទំនើបសម្រាប់ការទិញ និងលក់ទំនិញគុណភាពខ្ពស់។ 
                 ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកទិញ និងអ្នកលក់នៅក្នុងសហគមន៍របស់អ្នក។
               </p>
-              <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '36px',
-                  height: '36px',
-                  background: cssVariables['--background'],
-                  border: `1px solid ${cssVariables['--border']}`,
-                  borderRadius: '8px',
-                  color: cssVariables['--text-secondary'],
-                  textDecoration: 'none',
-                  transition: cssVariables['--transition']
-                }}>
+              <div className="social-links">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FacebookIcon />
                 </a>
-                <a href="https://x.com" target="_blank" rel="noopener noreferrer" style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '36px',
-                  height: '36px',
-                  background: cssVariables['--background'],
-                  border: `1px solid ${cssVariables['--border']}`,
-                  borderRadius: '8px',
-                  color: cssVariables['--text-secondary'],
-                  textDecoration: 'none',
-                  transition: cssVariables['--transition']
-                }}>
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="social-link">
                   <TwitterIcon />
                 </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '36px',
-                  height: '36px',
-                  background: cssVariables['--background'],
-                  border: `1px solid ${cssVariables['--border']}`,
-                  borderRadius: '8px',
-                  color: cssVariables['--text-secondary'],
-                  textDecoration: 'none',
-                  transition: cssVariables['--transition']
-                }}>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">
                   <InstagramIcon />
                 </a>
               </div>
@@ -125,146 +42,43 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h4 style={{
-              color: cssVariables['--text-primary'],
-              fontSize: '1.1rem',
-              fontWeight: '600',
-              margin: '0 0 1rem 0'
-            }}>
-              តំណភ្ជាប់រហ័ស
-            </h4>
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.75rem'
-            }}>
-              <li><Link to="/categories" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                transition: cssVariables['--transition']
-              }}>ស្វែងរកតាមប្រភេទ</Link></li>
-              <li><Link to="/featured" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                transition: cssVariables['--transition']
-              }}>ទំនិញពិសេស</Link></li>
-              <li><Link to="/popular" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                transition: cssVariables['--transition']
-              }}>ការស្វែងរកពេញនិយម</Link></li>
-              <li><Link to="/deals" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                transition: cssVariables['--transition']
-              }}>ការផ្សព្វផ្សាយ និងបញ្ចុះតម្លៃ</Link></li>
+          <div className="footer-section">
+            <h4 className="section-title">តំណភ្ជាប់រហ័ស</h4>
+            <ul className="footer-links">
+              <li><Link to="/categories" className="footer-link">ស្វែងរកតាមប្រភេទ</Link></li>
+              <li><Link to="/featured" className="footer-link">ទំនិញពិសេស</Link></li>
+              <li><Link to="/popular" className="footer-link">ការស្វែងរកពេញនិយម</Link></li>
+              <li><Link to="/deals" className="footer-link">ការផ្សព្វផ្សាយ និងបញ្ចុះតម្លៃ</Link></li>
             </ul>
           </div>
 
           {/* Support */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h4 style={{
-              color: cssVariables['--text-primary'],
-              fontSize: '1.1rem',
-              fontWeight: '600',
-              margin: '0 0 1rem 0'
-            }}>
-              ជំនួយ
-            </h4>
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.75rem'
-            }}>
-              <li><Link to="/help" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                transition: cssVariables['--transition']
-              }}>មជ្ឈមណ្ឌលជំនួយ</Link></li>
-              <li><Link to="/faq" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                transition: cssVariables['--transition']
-              }}>សំណួរចម្លើយ</Link></li>
-              <li><Link to="/contact" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                transition: cssVariables['--transition']
-              }}>ទាក់ទងមកយើង</Link></li>
-              <li><Link to="/privacy" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                transition: cssVariables['--transition']
-              }}>គោលការណ៍ឯកជនភាព</Link></li>
+          <div className="footer-section">
+            <h4 className="section-title">ជំនួយ</h4>
+            <ul className="footer-links">
+              <li><Link to="/help" className="footer-link">មជ្ឈមណ្ឌលជំនួយ</Link></li>
+              <li><Link to="/faq" className="footer-link">សំណួរចម្លើយ</Link></li>
+              <li><Link to="/contact" className="footer-link">ទាក់ទងមកយើង</Link></li>
+              <li><Link to="/privacy" className="footer-link">គោលការណ៍ឯកជនភាព</Link></li>
             </ul>
           </div>
 
           {/* Newsletter */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h4 style={{
-              color: cssVariables['--text-primary'],
-              fontSize: '1.1rem',
-              fontWeight: '600',
-              margin: '0 0 1rem 0'
-            }}>
-              ទទួលបានព័ត៌មានថ្មីៗ
-            </h4>
-            <p style={{
-              color: cssVariables['--text-secondary'],
-              fontSize: '0.9rem',
-              lineHeight: '1.6',
-              margin: '0 0 1.5rem 0'
-            }}>
+          <div className="footer-section">
+            <h4 className="section-title">ទទួលបានព័ត៌មានថ្មីៗ</h4>
+            <p className="newsletter-description">
               ចុះឈ្មោះទទួលព័ត៌មានថ្មីៗសម្រាប់ការអាប់ដេតចុងក្រោយ
             </p>
-            <form onSubmit={handleSubscribe} style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.75rem'
-            }}>
+            <form onSubmit={handleSubscribe} className="newsletter-form">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="បញ្ចូលអ៊ីមែលរបស់អ្នក"
-                style={{
-                  padding: '0.75rem 1rem',
-                  border: `1px solid ${cssVariables['--border']}`,
-                  borderRadius: '8px',
-                  fontSize: '0.9rem',
-                  fontFamily: "'Noto Sans Khmer', 'Arial', sans-serif",
-                  transition: cssVariables['--transition'],
-                  background: cssVariables['--background']
-                }}
+                className="newsletter-input"
                 required
               />
-              <button type="submit" style={{
-                padding: '0.75rem 1.5rem',
-                background: cssVariables['--accent-color'],
-                color: cssVariables['--surface'],
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                fontWeight: '500',
-                fontFamily: "'Noto Sans Khmer', 'Arial', sans-serif",
-                cursor: 'pointer',
-                transition: cssVariables['--transition']
-              }}>
+              <button type="submit" className="newsletter-button">
                 ចុះឈ្មោះ
               </button>
             </form>
@@ -272,98 +86,310 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div style={{
-          borderTop: `1px solid ${cssVariables['--border']}`,
-          padding: '1.5rem 0'
-        }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            alignItems: 'center'
-          }}>
-            <p style={{
-              color: cssVariables['--text-secondary'],
-              fontSize: '0.85rem',
-              margin: 0
-            }}>
+        <div className="footer-bottom">
+          <div className="footer-bottom-content">
+            <p className="copyright">
               &copy; 2025 Khmer365។ រក្សាសិទ្ធិគ្រប់យ៉ាង។
             </p>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <Link to="/terms" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.85rem',
-                transition: cssVariables['--transition']
-              }}>លក្ខខណ្ឌប្រើប្រាស់</Link>
-              <Link to="/privacy" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.85rem',
-                transition: cssVariables['--transition']
-              }}>គោលការណ៍ឯកជនភាព</Link>
-              <Link to="/cookies" style={{
-                color: cssVariables['--text-secondary'],
-                textDecoration: 'none',
-                fontSize: '0.85rem',
-                transition: cssVariables['--transition']
-              }}>គោលការណ៍ខូឃី</Link>
+            <div className="legal-links">
+              <Link to="/terms" className="legal-link">លក្ខខណ្ឌប្រើប្រាស់</Link>
+              <Link to="/privacy" className="legal-link">គោលការណ៍ឯកជនភាព</Link>
+              <Link to="/cookies" className="legal-link">គោលការណ៍ខូឃី</Link>
             </div>
           </div>
         </div>
       </div>
 
-      <style>
-        {`
-          @media (min-width: 768px) {
-            .footer-content {
-              grid-template-columns: 2fr 1fr 1fr 1.5fr;
-              gap: 3rem;
-            }
+      <style jsx>{`
+        .footer {
+          background: #ffffff;
+          border-top: 1px solid #e5e7eb;
+          margin-top: auto;
+          font-family: 'Inter', 'Noto Sans Khmer', sans-serif;
+        }
+
+        .footer-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1rem;
+        }
+
+        .footer-content {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          padding: 3rem 0 2rem;
+        }
+
+        .footer-section {
+          display: flex;
+          flex-direction: column;
+        }
+
+        /* Brand Section */
+        .brand-content {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .footer-logo {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          text-decoration: none;
+          font-weight: 700;
+          font-size: 1.5rem;
+          color: #1e40af;
+        }
+
+        .footer-logo span {
+          background: linear-gradient(135deg, #1e40af, #3b82f6);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .footer-description {
+          color: #6b7280;
+          font-size: 0.9rem;
+          line-height: 1.6;
+          margin: 0;
+        }
+
+        .social-links {
+          display: flex;
+          gap: 0.75rem;
+          margin-top: 0.5rem;
+        }
+
+        .social-link {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          background: #f8fafc;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          color: #6b7280;
+          text-decoration: none;
+          transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+          background: #3b82f6;
+          color: #ffffff;
+          border-color: #3b82f6;
+          transform: translateY(-1px);
+        }
+
+        /* Section Titles */
+        .section-title {
+          color: #111827;
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin: 0 0 1rem 0;
+        }
+
+        /* Footer Links */
+        .footer-links {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .footer-link {
+          color: #6b7280;
+          text-decoration: none;
+          font-size: 0.9rem;
+          transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+          color: #3b82f6;
+        }
+
+        /* Newsletter */
+        .newsletter-description {
+          color: #6b7280;
+          font-size: 0.9rem;
+          line-height: 1.6;
+          margin: 0 0 1.5rem 0;
+        }
+
+        .newsletter-form {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .newsletter-input {
+          padding: 0.75rem 1rem;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-family: inherit;
+          transition: all 0.3s ease;
+          background: #f8fafc;
+        }
+
+        .newsletter-input:focus {
+          outline: none;
+          border-color: #3b82f6;
+          background: #ffffff;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .newsletter-input::placeholder {
+          color: #94a3b8;
+        }
+
+        .newsletter-button {
+          padding: 0.75rem 1.5rem;
+          background: #3b82f6;
+          color: #ffffff;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          font-family: inherit;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+          background: #1e40af;
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+          border-top: 1px solid #e5e7eb;
+          padding: 1.5rem 0;
+        }
+
+        .footer-bottom-content {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          align-items: center;
+        }
+
+        .copyright {
+          color: #6b7280;
+          font-size: 0.85rem;
+          margin: 0;
+        }
+
+        .legal-links {
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .legal-link {
+          color: #6b7280;
+          text-decoration: none;
+          font-size: 0.85rem;
+          transition: color 0.3s ease;
+        }
+
+        .legal-link:hover {
+          color: #3b82f6;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+          .footer-content {
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem;
           }
 
-          @media (min-width: 640px) {
-            .footer-bottom-content {
-              flex-direction: row;
-              justify-content: space-between;
-              align-items: center;
-            }
+          .footer-bottom-content {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .footer-container {
+            padding: 0 2rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .footer-content {
+            padding: 2rem 0 1.5rem;
+            gap: 1.5rem;
           }
 
-          .social-link:hover,
-          .footer-link:hover,
-          .legal-link:hover {
-            color: ${cssVariables['--accent-color']};
+          .legal-links {
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
           }
 
-          .social-link:hover {
-            background: ${cssVariables['--accent-color']};
-            color: ${cssVariables['--surface']};
-            border-color: ${cssVariables['--accent-color']};
-            transform: translateY(-1px);
+          .newsletter-form {
+            gap: 0.5rem;
+          }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+          .footer {
+            background: #1e293b;
+            border-top-color: #334155;
+          }
+
+          .footer-description,
+          .footer-link,
+          .newsletter-description,
+          .copyright,
+          .legal-link {
+            color: #94a3b8;
+          }
+
+          .section-title {
+            color: #f1f5f9;
+          }
+
+          .social-link {
+            background: #334155;
+            border-color: #475569;
+            color: #cbd5e1;
+          }
+
+          .newsletter-input {
+            background: #334155;
+            border-color: #475569;
+            color: #e2e8f0;
           }
 
           .newsletter-input:focus {
-            outline: none;
-            border-color: ${cssVariables['--accent-color']};
-            background: ${cssVariables['--surface']};
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background: #1e293b;
+            border-color: #3b82f6;
           }
 
-          .newsletter-button:hover {
-            background: ${cssVariables['--primary-color']};
+          .footer-bottom {
+            border-top-color: #334155;
           }
-
-          .newsletter-input::placeholder {
-            color: #94a3b8;
-          }
-        `}
-      </style>
+        }
+      `}</style>
     </footer>
   );
 };
 
-// Icon Components (unchanged)
+// Icon Components
+const HomeIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+);
+
 const FacebookIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
