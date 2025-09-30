@@ -46,13 +46,25 @@ const ListingDetails = () => {
 
   // Define functions before useEffect hooks
   const getImageUrl = useCallback((imagePath) => {
-    if (!imagePath || typeof imagePath !== 'string') return null;
-    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-    if (imagePath.startsWith('http')) return imagePath;
-    let cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
-    if (cleanPath.startsWith('uploads/')) cleanPath = cleanPath.slice(8);
-    return `${baseUrl}/uploads/${cleanPath}`;
-  }, []);
+  if (!imagePath || typeof imagePath !== 'string') return null;
+  
+  // Use your actual API URL
+  const baseUrl = 'https://khmer365-1.onrender.com';
+  
+  // If already a full URL, return as-is
+  if (imagePath.startsWith('http')) return imagePath;
+  
+  // Remove leading slash if present
+  let cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
+  
+  // If path already includes 'uploads/', use as-is
+  if (cleanPath.startsWith('uploads/')) {
+    return `${baseUrl}/${cleanPath}`;
+  }
+  
+  // Otherwise add 'uploads/' prefix
+  return `${baseUrl}/uploads/${cleanPath}`;
+}, []);
 
   const getImageUrls = useCallback(
     (listing) => {

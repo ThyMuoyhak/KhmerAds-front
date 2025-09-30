@@ -69,31 +69,46 @@ const ListingCard = ({ listing, onUpdate, onDelete, isDeleting }) => {
     Other: 'ផ្សេងៗ',
   };
 
-  // Set primary image URL
+  // FIXED: Set primary image URL with correct API base URL
   const getImageUrl = (imageUrl) => {
     if (!imageUrl || typeof imageUrl !== 'string') {
       console.warn('Invalid or missing imageUrl:', imageUrl);
       return null;
     }
-    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    
+    // Use your actual API URL
+    const baseUrl = 'https://khmer365-1.onrender.com';
+    
+    // If already a full URL, return as-is
     if (imageUrl.startsWith('http')) return imageUrl;
-    let cleanPath = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
-    if (cleanPath.startsWith('uploads/')) cleanPath = cleanPath.slice(8);
+    
+    // Remove leading slash if present
+    const cleanPath = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
+    
+    // If path already includes 'uploads/', use as-is
+    if (cleanPath.startsWith('uploads/')) {
+      return `${baseUrl}/${cleanPath}`;
+    }
+    
+    // Otherwise add 'uploads/' prefix
     return `${baseUrl}/uploads/${cleanPath}`;
   };
 
   useEffect(() => {
     if (listing?.images && Array.isArray(listing.images) && listing.images.length > 0 && listing.images[0]?.image_url) {
       const url = getImageUrl(listing.images[0].image_url);
+      console.log('Setting image URL from images array:', url);
       setPrimaryImageUrl(url);
       setImageLoading(true);
       setImageError(false);
     } else if (listing?.image_url) {
       const url = getImageUrl(listing.image_url);
+      console.log('Setting image URL from image_url:', url);
       setPrimaryImageUrl(url);
       setImageLoading(true);
       setImageError(false);
     } else {
+      console.log('No image found for listing:', listing?.id);
       setPrimaryImageUrl(null);
       setImageLoading(false);
       setImageError(true);
@@ -106,6 +121,7 @@ const ListingCard = ({ listing, onUpdate, onDelete, isDeleting }) => {
   };
 
   const handleImageError = () => {
+    console.error('Failed to load image:', primaryImageUrl);
     setImageLoading(false);
     setImageError(true);
   };
@@ -210,7 +226,7 @@ const ListingCard = ({ listing, onUpdate, onDelete, isDeleting }) => {
             <div className="contact-item">
               <div className="contact-icon-wrapper">
                 <svg className="contact-icon" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.568 8.16l-1.58 7.44c-.12.532-.432.66-.876.41l-2.436-1.8-1.176 1.128c-.132.132-.240.24-.492.24l.168-2.388L15.12 9.28c.192-.168-.048-.264-.288-.096l-3.3 2.08-2.22-.696c-.48-.156-.492-.48.108-.708l8.688-3.348c.408-.156.756.096.636.708z" />
+                  <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.568 8.16l-1.58 7.44c-.12.532-.432.66-.876.41l-2.436-1.8-1.176 1.128c-.132.132-.24.24-.492.24l.168-2.388L15.12 9.28c.192-.168-.048-.264-.288-.096l-3.3 2.08-2.22-.696c-.48-.156-.492-.48.108-.708l8.688-3.348c.408-.156.756.096.636.708z" />
                 </svg>
               </div>
               <a href={listing.telegram_link} target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Contact via Telegram">

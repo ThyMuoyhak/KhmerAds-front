@@ -140,7 +140,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     apiClient
-      .get('/listings')
+      .get('/listings/')
       .then((response) => {
         console.log('Listings fetched from /listings:', response.data);
 
@@ -213,7 +213,7 @@ const Home = () => {
 
   return (
     <div>
-      {/* <Hero /> */}
+      
       <div className="home-container">
         <div className="home-content-wrapper">
           <div className="category-section">

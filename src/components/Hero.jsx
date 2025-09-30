@@ -1,14 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import apiClient from '../api/apiClient';
 
 const Hero = () => {
-    const stats = [
-        { number: '10K+', label: 'ការផ្សាយសរុប' },
-        { number: '5K+', label: 'អ្នកប្រើប្រាស់' },
-        { number: '99%', label: 'អត្រាពេញចិត្ត' }
+    const [stats, setStats] = useState({
+        totalListings: '0',
+        totalUsers: '0',
+        satisfaction: '99%'
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                // Fetch all listings
+                const listingsResponse = await apiClient.get('/listings/');
+                const totalListings = listingsResponse.data.length;
+
+                // Format numbers
+                const formatNumber = (num) => {
+                    if (num >= 1000) {
+                        return (num / 1000).toFixed(1) + 'K+';
+                    }
+                    return num.toString();
+                };
+
+                setStats({
+                    totalListings: formatNumber(totalListings),
+                    totalUsers: formatNumber(Math.floor(totalListings / 2)), // Estimate
+                    satisfaction: '99%'
+                });
+            } catch (error) {
+                console.error('Failed to fetch stats:', error);
+                // Keep default values on error
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, []);
+
+    const displayStats = [
+        { number: loading ? '...' : stats.totalListings, label: 'ការផ្សាយសរុប' },
+        { number: loading ? '...' : stats.totalUsers, label: 'អ្នកប្រើប្រាស់' },
+        { number: stats.satisfaction, label: 'អត្រាពេញចិត្ត' }
     ];
 
-    // PNG image URLs (you can replace these with your actual image URLs)
     const images = {
         phone: 'https://cdn-icons-png.flaticon.com/512/0/191.png',
         computer: 'https://cdn-icons-png.flaticon.com/512/747/747310.png',
@@ -31,7 +69,7 @@ const Hero = () => {
                         </h1>
 
                         <p className="hero-description">
-                            វេទិកាលក់ទំនិញលើអ៊ីនធឺណិតដ៏ធំគ្រប់គ្រាន់សម្រាប់ខ្មែរ។
+                            វេទិកាលក់ទំនិញលើអ៊ីនធឺណិតដ៏ធំបំផុតសម្រាប់ខ្មែរ។
                             ស្វែងរក និងលក់ទំនិញដោយងាយស្រួល លឿន និងសុវត្ថិភាព។
                         </p>
 
@@ -49,7 +87,7 @@ const Hero = () => {
 
                         {/* Stats */}
                         <div className="hero-stats">
-                            {stats.map((stat, index) => (
+                            {displayStats.map((stat, index) => (
                                 <div key={index} className="stat">
                                     <div className="stat-number">{stat.number}</div>
                                     <div className="stat-label">{stat.label}</div>
@@ -83,7 +121,7 @@ const Hero = () => {
                                 </div>
                                 <div className="highlight-text">
                                     <h3>រកឃើញអ្វីដែលអ្នកត្រូវការ</h3>
-                                    <p>រាប់ពាន់នាក់កំពុងរកទំនិញនៅលើ Khmer365</p>
+                                    <p>រាប់ពាន់នាក់កំពុងរកទំនិញនៅលើ KhmerAds</p>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +160,6 @@ const Hero = () => {
                     align-items: center;
                 }
 
-                /* Text Content */
                 .hero-text {
                     text-align: center;
                     max-width: 600px;
@@ -150,7 +187,6 @@ const Hero = () => {
                     opacity: 0.9;
                 }
 
-                /* Buttons */
                 .hero-actions {
                     display: flex;
                     gap: 1rem;
@@ -194,7 +230,6 @@ const Hero = () => {
                     transform: translateY(-2px);
                 }
 
-                /* Stats */
                 .hero-stats {
                     display: flex;
                     justify-content: center;
@@ -218,7 +253,6 @@ const Hero = () => {
                     opacity: 0.8;
                 }
 
-                /* Visual Card */
                 .hero-visual {
                     position: relative;
                     max-width: 400px;
@@ -308,7 +342,6 @@ const Hero = () => {
                     margin: 0;
                 }
 
-                /* Badges */
                 .badge {
                     position: absolute;
                     display: flex;
@@ -342,7 +375,6 @@ const Hero = () => {
                     color: white;
                 }
 
-                /* Responsive Design */
                 @media (min-width: 768px) {
                     .hero {
                         padding: 5rem 2rem;
@@ -421,7 +453,6 @@ const Hero = () => {
     );
 };
 
-// Icon Components (keep these as SVG)
 const PlusIcon = () => (
     <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
