@@ -548,36 +548,7 @@ const ListingDetails = () => {
           </div>
         </div>
 
-        {/* Comments Section */}
-        <div className="comments-section">
-          <h2>មតិយោបល់</h2>
-          {comments.length > 0 ? (
-            <ul>
-              {comments.map((comment) => (
-                <li key={comment.id} className="comment">
-                  <p>
-                    <strong>{comment.reviewer.username}</strong>: {comment.comment}
-                  </p>
-                  <p>Rating: {comment.rating}/5</p>
-                  <p>{formatCambodianDate(comment.created_at)}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>មិនទាន់មានមតិយោបល់ទេ�।</p>
-          )}
-          {currentUser && currentUser !== 'Guest' && (
-            <form onSubmit={handleCommentSubmit} className="comment-form">
-              <textarea
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="សរសេរមតិយោបល់របស់អ្នក..."
-                required
-              />
-              <button type="submit">បញ្ចូនមតិ</button>
-            </form>
-          )}
-        </div>
+        
 
         {/* Safety Tips Section */}
         <div className="safety-tips">
@@ -652,9 +623,7 @@ const ListingDetails = () => {
             <button onClick={nextImage} className="nav-button next">
               ›
             </button>
-            <div className="image-counter">
-              {selectedImageIndex + 1} / {imageUrls.length}
-            </div>
+           
           </div>
         )}
 

@@ -78,8 +78,8 @@ const Login = () => {
       <div className="form-container">
         <div className="form-card">
           <div className="form-header">
-            <h2 className="form-title">ចូលគណនី</h2>
-            <p className="form-subtitle">
+            <h2 style={{color:'white'}} className="form-title">ចូលគណនី</h2>
+            <p style={{color:'white'}} className="form-subtitle">
               បញ្ចូលឈ្មោះអ្នកប្រើប្រាស់ និងពាក្យសម្ងាត់របស់អ្នក
             </p>
           </div>
@@ -203,7 +203,7 @@ const Login = () => {
             <div className="register-link">
               <p>
                 មិនទាន់មានគណនី?{' '}
-                <Link to="/register" className="register-link-text">
+                <Link  to="/register" className="register-link-text">
                   ចុះឈ្មោះ
                 </Link>
               </p>

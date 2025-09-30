@@ -604,22 +604,32 @@ const UserProfile = () => {
                           </div>
                           
                           {/* Action Buttons */}
-                          {isOwner && (
+                          {(
                             <div className="listing-actions">
-                              <button
-                                onClick={() => handleUpdate(listing.id)}
-                                className="action-button edit-button"
-                              >
-                                កែ
-                              </button>
-                              <button
-                                onClick={() => handleDelete(listing.id)}
-                                disabled={deletingId === listing.id}
-                                className="action-button delete-button"
-                              >
-                                {deletingId === listing.id ? 'កំពុងលុប...' : 'លុប'}
-                              </button>
-                            </div>
+                            <Link
+                              to={`/listing/${listing.id}`}
+                              className="action-button view-button"
+                            >
+                              មើលព័ត៌មាន
+                            </Link>
+                            {isOwner && (
+                              <>
+                                <button
+                                  onClick={() => handleUpdate(listing.id)}
+                                  className="action-button edit-button"
+                                >
+                                  កែ
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(listing.id)}
+                                  disabled={deletingId === listing.id}
+                                  className="action-button delete-button"
+                                >
+                                  {deletingId === listing.id ? 'កំពុងលុប...' : 'លុប'}
+                                </button>
+                              </>
+                            )}
+                          </div>
                           )}
                         </div>
                       </div>

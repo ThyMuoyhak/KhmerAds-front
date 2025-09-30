@@ -21,7 +21,7 @@ const Footer = () => {
             <div className="brand-content">
               <Link to="/" className="footer-logo">
                 <HomeIcon />
-                <span>Khmer365</span>
+                <span>KhmerAds</span>
               </Link>
               <p className="footer-description">
                 ទីផ្សារទំនើបសម្រាប់ការទិញ និងលក់ទំនិញគុណភាពខ្ពស់។ 
@@ -89,7 +89,7 @@ const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <p className="copyright">
-              &copy; 2025 Khmer365។ រក្សាសិទ្ធិគ្រប់យ៉ាង។
+              &copy; 2025 KhmerAds។ រក្សាសិទ្ធិគ្រប់យ៉ាង។
             </p>
             <div className="legal-links">
               <Link to="/terms" className="legal-link">លក្ខខណ្ឌប្រើប្រាស់</Link>
@@ -105,7 +105,7 @@ const Footer = () => {
           background: #ffffff;
           border-top: 1px solid #e5e7eb;
           margin-top: auto;
-          font-family: 'Inter', 'Noto Sans Khmer', sans-serif;
+          font-family: 'Inter', 'Khmer', sans-serif;
         }
 
         .footer-container {

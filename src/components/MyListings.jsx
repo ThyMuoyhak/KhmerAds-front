@@ -526,6 +526,14 @@ const MyListings = () => {
                             <TimeIcon className="time-icon" />
                             <span>{formatTimestamp(listing.created_at)}</span>
                           </div>
+
+                         
+                                                      <Link
+                                                        to={`/listing/${listing.id}`}
+                                                        className="action-button view-button"
+                                                      >
+                                                        មើលព័ត៌មាន
+                                                      </Link>
                           
                           {/* Action Buttons */}
                           <div className="listing-actions">
@@ -577,7 +585,7 @@ const MyListings = () => {
           background: #f8fafc;
           padding: 2rem 1rem;
           min-height: 100vh;
-          font-family: 'Inter', 'Kantumruy', sans-serif;
+          font-family: 'Inter', 'Khmer', sans-serif;
         }
 
         .my-listings-wrapper {

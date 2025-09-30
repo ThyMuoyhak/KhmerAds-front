@@ -1,8 +1,13 @@
-// In src/api/apiClient.js
+// src/api/apiClient.js
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://192.168.1.5:8000',
+  baseURL: 'https://khmer365-1.onrender.com',
+  // បន្ថែមនេះដើម្បី handle redirects
+  maxRedirects: 5,
+  validateStatus: function (status) {
+    return status >= 200 && status < 400; // Accept redirects
+  }
 });
 
 // Add request interceptor to include auth token

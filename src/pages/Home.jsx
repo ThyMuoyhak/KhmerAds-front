@@ -140,7 +140,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     apiClient
-      .get('/listings')
+      .get('/listings/')
       .then((response) => {
         console.log('Listings fetched from /listings:', response.data);
 
