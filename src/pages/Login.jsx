@@ -276,7 +276,7 @@ const Login = () => {
           color: #00d9ff;
           margin: 0;
           text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
-          font-family: 'Press Start 2P', monospace;
+          font-family: 'Khmer', monospace;
           letter-spacing: 1px;
         }
 
@@ -294,7 +294,7 @@ const Login = () => {
           padding: 1rem;
           margin-bottom: 1.5rem;
           box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
-          font-family: 'Press Start 2P', monospace;
+          font-family: 'Khmer', monospace;
           text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
         }
 
@@ -320,7 +320,7 @@ const Login = () => {
           font-weight: 700;
           color: #7b8cde;
           text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-          font-family: 'Press Start 2P', monospace;
+          font-family: 'Khmer', monospace;
           letter-spacing: 0.5px;
         }
 
@@ -409,7 +409,7 @@ const Login = () => {
           font-size: 0.9rem;
           color: #7b8cde;
           text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-          font-family: 'Press Start 2P', monospace;
+          font-family: 'Khmer', monospace;
           letter-spacing: 0.5px;
         }
 
@@ -419,7 +419,7 @@ const Login = () => {
           text-decoration: none;
           transition: all 0.2s ease;
           text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-          font-family: 'Press Start 2P', monospace;
+          font-family: 'Khmer', monospace;
           letter-spacing: 0.5px;
         }
 
@@ -446,7 +446,7 @@ const Login = () => {
           box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
           text-transform: uppercase;
           letter-spacing: 1px;
-          font-family: 'Press Start 2P', monospace;
+          font-family: 'Khmer', monospace;
           position: relative;
           overflow: hidden;
         }
@@ -520,7 +520,7 @@ const Login = () => {
           text-decoration: none;
           transition: all 0.2s ease;
           text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-          font-family: 'Press Start 2P', monospace;
+          font-family: 'Khmer', monospace;
           letter-spacing: 0.5px;
         }
 
