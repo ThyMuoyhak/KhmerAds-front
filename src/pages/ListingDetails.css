@@ -127,22 +127,23 @@
 }
 
 .main-image-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
-  border: 4px solid #533483;
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
-}
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+          border: 4px solid #533483;
+          border-radius: 0;
+          overflow: hidden;
+          box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+          margin-bottom: 2rem;
+        }
 
 .main-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.3s;
+  object-fit: contain;
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
 }
 
 .main-image:hover {
