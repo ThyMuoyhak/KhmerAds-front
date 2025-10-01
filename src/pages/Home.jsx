@@ -188,28 +188,57 @@ const Home = () => {
     setSelectedCategory(categoryName);
   };
 
-  if (loading) {
-    return (
-      <div className="home-container home-loading">
-        <div className="home-content-wrapper">
-          <h1 className="home-title">ការផ្សាយពិសេស</h1>
-          <div className="loading-grid">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="loading-card">
-                <div className="loading-image" />
-                <div className="loading-title" />
-                <div className="loading-subtitle" />
-                <div className="loading-footer">
-                  <div className="loading-price" />
-                  <div className="loading-button" />
-                </div>
-              </div>
-            ))}
+ if (loading) {
+  return (
+    <div className="home-container home-loading">
+      <div className="home-content-wrapper">
+        {/* Main Title */}
+        <h1 className="home-title">KhmerAds</h1>
+        
+        {/* Loading Animation Container */}
+        <div className="loading-animation">
+          {/* Pixel Loader - 3x3 Grid */}
+          <div className="pixel-loader">
+            <div className="pixel-block"></div>
+            <div className="pixel-block"></div>
+            <div className="pixel-block"></div>
+            <div className="pixel-block"></div>
+            <div className="pixel-block"></div> {/* Center block with different color */}
+            <div className="pixel-block"></div>
+            <div className="pixel-block"></div>
+            <div className="pixel-block"></div>
+            <div className="pixel-block"></div>
+          </div>
+
+          {/* Loading Text */}
+          <div className="loading-text">
+            កំពុងផ្ទុក<span className="loading-dots">...</span>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="loading-progress">
+            <div className="loading-progress-bar"></div>
           </div>
         </div>
+
+        {/* Optional: Skeleton Cards Preview */}
+        <div className="loading-grid">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="loading-card">
+              <div className="loading-image" />
+              <div className="loading-title" />
+              <div className="loading-subtitle" />
+              <div className="loading-footer">
+                <div className="loading-price" />
+                <div className="loading-button" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   return (
     <div>
@@ -217,7 +246,7 @@ const Home = () => {
       <div className="home-container">
         <div className="home-content-wrapper">
           <div className="category-section">
-            <h2 className="section-title">ប្រភេទការផ្សាយ</h2>
+            <h2 style={{color:'#00d9ff'}} className="section-title">ប្រភេទការផ្សាយ</h2>
             <div className="category-grid">
               {categories.map((category) => (
                 <button

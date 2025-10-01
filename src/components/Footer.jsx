@@ -20,7 +20,7 @@ const Footer = () => {
           <div className="footer-section">
             <div className="brand-content">
               <Link to="/" className="footer-logo">
-                <HomeIcon />
+                
                 <span>KhmerAds</span>
               </Link>
               <p className="footer-description">
@@ -102,10 +102,11 @@ const Footer = () => {
 
       <style jsx>{`
         .footer {
-          background: #ffffff;
-          border-top: 1px solid #e5e7eb;
+          background: linear-gradient(135deg, rgba(10, 14, 39, 0.8) 0%, rgba(22, 33, 62, 0.8) 100%);
+          border-top: 4px solid #533483;
           margin-top: auto;
           font-family: 'Inter', 'Khmer', sans-serif;
+          color: #e2e8f0;
         }
 
         .footer-container {
@@ -140,21 +141,31 @@ const Footer = () => {
           text-decoration: none;
           font-weight: 700;
           font-size: 1.5rem;
-          color: #1e40af;
+          color: #00d9ff;
+          transition: all 0.2s ease;
+          text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Khmer', monospace;
+          letter-spacing: 1px;
+        }
+
+        .footer-logo:hover {
+          transform: translate(-3px, -3px);
+          text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 217, 255, 0.3);
         }
 
         .footer-logo span {
-          background: linear-gradient(135deg, #1e40af, #3b82f6);
+          background: linear-gradient(135deg, #00d9ff, #0099cc);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
 
         .footer-description {
-          color: #6b7280;
+          color: #7b8cde;
           font-size: 0.9rem;
           line-height: 1.6;
           margin: 0;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
         }
 
         .social-links {
@@ -169,27 +180,32 @@ const Footer = () => {
           justify-content: center;
           width: 36px;
           height: 36px;
-          background: #f8fafc;
-          border: 1px solid #e5e7eb;
-          border-radius: 8px;
-          color: #6b7280;
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          border: 3px solid #533483;
+          border-radius: 0;
+          color: #00d9ff;
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          image-rendering: pixelated;
         }
 
         .social-link:hover {
-          background: #3b82f6;
-          color: #ffffff;
-          border-color: #3b82f6;
-          transform: translateY(-1px);
+          background: linear-gradient(180deg, #00d9ff 0%, #0099cc 100%);
+          color: #0a0e27;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.6);
+          transform: translateY(-2px);
         }
 
         /* Section Titles */
         .section-title {
-          color: #111827;
+          color: #00d9ff;
           font-size: 1.1rem;
-          font-weight: 600;
+          font-weight: 700;
           margin: 0 0 1rem 0;
+          text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Khmer', monospace;
+          letter-spacing: 1px;
         }
 
         /* Footer Links */
@@ -203,22 +219,28 @@ const Footer = () => {
         }
 
         .footer-link {
-          color: #6b7280;
+          color: #7b8cde;
           text-decoration: none;
           font-size: 0.9rem;
-          transition: color 0.3s ease;
+          transition: all 0.2s ease;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Khmer', monospace;
+          letter-spacing: 0.5px;
         }
 
         .footer-link:hover {
-          color: #3b82f6;
+          color: #00d9ff;
+          text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+          transform: translateX(3px);
         }
 
         /* Newsletter */
         .newsletter-description {
-          color: #6b7280;
+          color: #7b8cde;
           font-size: 0.9rem;
           line-height: 1.6;
           margin: 0 0 1.5rem 0;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
         }
 
         .newsletter-form {
@@ -229,45 +251,75 @@ const Footer = () => {
 
         .newsletter-input {
           padding: 0.75rem 1rem;
-          border: 1px solid #e5e7eb;
-          border-radius: 8px;
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          border: 3px solid #533483;
+          border-radius: 0;
           font-size: 0.9rem;
-          font-family: inherit;
-          transition: all 0.3s ease;
-          background: #f8fafc;
+          color: #e2e8f0;
+          transition: all 0.2s ease;
+          font-family: 'Inter', sans-serif;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(5px);
         }
 
         .newsletter-input:focus {
           outline: none;
-          border-color: #3b82f6;
-          background: #ffffff;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+          border-color: #00d9ff;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.3);
+          transform: translate(-2px, -2px);
         }
 
         .newsletter-input::placeholder {
-          color: #94a3b8;
+          color: #7b8cde;
         }
 
         .newsletter-button {
           padding: 0.75rem 1.5rem;
-          background: #3b82f6;
-          color: #ffffff;
-          border: none;
-          border-radius: 8px;
+          background: linear-gradient(180deg, #00d9ff 0%, #0099cc 100%);
+          color: #0a0e27;
+          border: 3px solid #006699;
+          border-radius: 0;
           font-size: 0.9rem;
-          font-weight: 500;
-          font-family: inherit;
+          font-weight: 700;
+          font-family: 'Khmer', monospace;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .newsletter-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+          transition: left 0.5s;
+        }
+
+        .newsletter-button:hover::before {
+          left: 100%;
         }
 
         .newsletter-button:hover {
-          background: #1e40af;
+          background: linear-gradient(180deg, #7df9ff 0%, #00d9ff 100%);
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.6);
+          transform: translateY(-2px);
+        }
+
+        .newsletter-button:active {
+          transform: translate(2px, 2px);
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
         }
 
         /* Footer Bottom */
         .footer-bottom {
-          border-top: 1px solid #e5e7eb;
+          border-top: 4px solid #533483;
           padding: 1.5rem 0;
         }
 
@@ -279,9 +331,12 @@ const Footer = () => {
         }
 
         .copyright {
-          color: #6b7280;
+          color: #7b8cde;
           font-size: 0.85rem;
           margin: 0;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Khmer', monospace;
+          letter-spacing: 0.5px;
         }
 
         .legal-links {
@@ -290,14 +345,19 @@ const Footer = () => {
         }
 
         .legal-link {
-          color: #6b7280;
+          color: #7b8cde;
           text-decoration: none;
           font-size: 0.85rem;
-          transition: color 0.3s ease;
+          transition: all 0.2s ease;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Khmer', monospace;
+          letter-spacing: 0.5px;
         }
 
         .legal-link:hover {
-          color: #3b82f6;
+          color: #00d9ff;
+          text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+          transform: translateX(3px);
         }
 
         /* Responsive Design */
@@ -335,47 +395,35 @@ const Footer = () => {
           .newsletter-form {
             gap: 0.5rem;
           }
-        }
 
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
           .footer {
-            background: #1e293b;
-            border-top-color: #334155;
-          }
-
-          .footer-description,
-          .footer-link,
-          .newsletter-description,
-          .copyright,
-          .legal-link {
-            color: #94a3b8;
-          }
-
-          .section-title {
-            color: #f1f5f9;
-          }
-
-          .social-link {
-            background: #334155;
-            border-color: #475569;
-            color: #cbd5e1;
-          }
-
-          .newsletter-input {
-            background: #334155;
-            border-color: #475569;
-            color: #e2e8f0;
-          }
-
-          .newsletter-input:focus {
-            background: #1e293b;
-            border-color: #3b82f6;
+            border-top-width: 3px;
           }
 
           .footer-bottom {
-            border-top-color: #334155;
+            border-top-width: 3px;
           }
+        }
+
+        /* Pixel-perfect icons */
+        .input-icon,
+        .button-icon,
+        .social-link svg {
+          image-rendering: pixelated;
+        }
+
+        /* Glow effects */
+        .footer-logo:hover,
+        .social-link:hover,
+        .newsletter-button:hover,
+        .footer-link:hover,
+        .legal-link:hover {
+          animation: elementGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes elementGlow {
+          0%, 100% { filter: drop-shadow(0 0 5px currentColor); }
+          50% { filter: drop-shadow(0 0 15px currentColor); }
         }
       `}</style>
     </footer>

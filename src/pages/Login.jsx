@@ -78,8 +78,8 @@ const Login = () => {
       <div className="form-container">
         <div className="form-card">
           <div className="form-header">
-            <h2 style={{color:'white'}} className="form-title">ចូលគណនី</h2>
-            <p style={{color:'white'}} className="form-subtitle">
+            <h2 className="form-title">ចូលគណនី</h2>
+            <p className="form-subtitle">
               បញ្ចូលឈ្មោះអ្នកប្រើប្រាស់ និងពាក្យសម្ងាត់របស់អ្នក
             </p>
           </div>
@@ -214,13 +214,14 @@ const Login = () => {
 
       <style jsx>{`
         .login-container {
-          background: #f8fafc;
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
           min-height: 100vh;
           padding: 4rem 1rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: 'Khmer', 'Arial', sans-serif;
+          font-family: 'Inter', 'Khmer', sans-serif;
+          color: #e2e8f0;
         }
 
         .form-container {
@@ -230,11 +231,38 @@ const Login = () => {
         }
 
         .form-card {
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          border: 4px solid #533483;
+          border-radius: 0;
           padding: 2rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+          position: relative;
+          backdrop-filter: blur(10px);
+          transition: all 0.2s ease;
+        }
+
+        .form-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(45deg, transparent 48%, rgba(0, 217, 255, 0.1) 50%, transparent 52%);
+          background-size: 20px 20px;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+
+        .form-card:hover::before {
+          opacity: 1;
+        }
+
+        .form-card:hover {
+          transform: translate(-3px, -3px);
+          box-shadow: 9px 9px 0 rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 217, 255, 0.3);
+          border-color: #00d9ff;
         }
 
         .form-header {
@@ -244,28 +272,35 @@ const Login = () => {
 
         .form-title {
           font-size: 2rem;
-          font-weight: 600;
-          color: #1e293b;
+          font-weight: 700;
+          color: #00d9ff;
           margin: 0;
+          text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Press Start 2P', monospace;
+          letter-spacing: 1px;
         }
 
         .form-subtitle {
           font-size: 0.9rem;
-          color: #64748b;
+          color: #7b8cde;
           margin-top: 0.5rem;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
         }
 
         .error-message {
-          background: #fee2e2;
-          border: 1px solid #fecaca;
-          border-radius: 8px;
+          background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(199, 44, 65, 0.2) 100%);
+          border: 4px solid #e94560;
+          border-radius: 0;
           padding: 1rem;
           margin-bottom: 1.5rem;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          font-family: 'Press Start 2P', monospace;
+          text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
         }
 
         .error-text {
           font-size: 0.9rem;
-          color: #dc2626;
+          color: #e94560;
         }
 
         .form-content {
@@ -282,8 +317,11 @@ const Login = () => {
 
         .input-label {
           font-size: 0.9rem;
-          font-weight: 500;
-          color: #1e293b;
+          font-weight: 700;
+          color: #7b8cde;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Press Start 2P', monospace;
+          letter-spacing: 0.5px;
         }
 
         .input-wrapper {
@@ -299,36 +337,42 @@ const Login = () => {
           transform: translateY(-50%);
           width: 1.25rem;
           height: 1.25rem;
-          color: #64748b;
+          color: #00d9ff;
+          image-rendering: pixelated;
         }
 
         .input-field {
           width: 100%;
           padding: 0.75rem 1rem 0.75rem 3rem;
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          border: 3px solid #533483;
+          border-radius: 0;
           font-size: 0.9rem;
-          color: #1e293b;
+          color: #e2e8f0;
           transition: all 0.2s ease;
+          font-family: 'Inter', sans-serif;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(5px);
         }
 
         .input-field:focus {
           outline: none;
-          border-color: #2563eb;
-          box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+          border-color: #00d9ff;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.3);
+          transform: translate(-2px, -2px);
         }
 
         .input-field::placeholder {
-          color: #9ca3af;
+          color: #7b8cde;
         }
 
         .input-error {
-          border-color: #dc2626;
+          border-color: #e94560;
+          box-shadow: 4px 4px 0 rgba(233, 69, 96, 0.4);
         }
 
         .input-error:focus {
-          box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+          box-shadow: 4px 4px 0 rgba(233, 69, 96, 0.4), 0 0 20px rgba(233, 69, 96, 0.3);
         }
 
         .form-options {
@@ -348,57 +392,102 @@ const Login = () => {
         .checkbox-input {
           width: 1rem;
           height: 1rem;
-          accent-color: #2563eb;
-          border-radius: 4px;
+          accent-color: #00d9ff;
+          border: 2px solid #533483;
+          border-radius: 0;
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .checkbox-input:checked {
+          background: linear-gradient(180deg, #00d9ff 0%, #0099cc 100%);
+          border-color: #006699;
         }
 
         .checkbox-label {
           font-size: 0.9rem;
-          color: #64748b;
+          color: #7b8cde;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Press Start 2P', monospace;
+          letter-spacing: 0.5px;
         }
 
         .forgot-password {
           font-size: 0.9rem;
-          color: #2563eb;
+          color: #00d9ff;
           text-decoration: none;
-          transition: color 0.2s ease;
+          transition: all 0.2s ease;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Press Start 2P', monospace;
+          letter-spacing: 0.5px;
         }
 
         .forgot-password:hover {
-          color: #1d4ed8;
+          color: #7df9ff;
+          text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
         }
 
         .submit-button {
           width: 100%;
-          padding: 0.75rem 1rem;
-          background: #2563eb;
-          color: #ffffff;
-          font-size: 1rem;
-          font-weight: 600;
-          border: none;
-          border-radius: 8px;
+          padding: 1rem;
+          background: linear-gradient(180deg, #00d9ff 0%, #0099cc 100%);
+          color: #0a0e27;
+          font-size: 0.9rem;
+          font-weight: 700;
+          border: 3px solid #006699;
+          border-radius: 0;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 0.5rem;
           transition: all 0.2s ease;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-family: 'Press Start 2P', monospace;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .submit-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+          transition: left 0.5s;
+        }
+
+        .submit-button:hover::before {
+          left: 100%;
         }
 
         .submit-button:hover:not(.loading) {
-          background: #1d4ed8;
-          transform: translateY(-1px);
+          background: linear-gradient(180deg, #7df9ff 0%, #00d9ff 100%);
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.6);
+          transform: translateY(-2px);
         }
 
         .submit-button.loading {
           opacity: 0.5;
           cursor: not-allowed;
+          transform: none;
+        }
+
+        .submit-button:active:not(.loading) {
+          transform: translate(2px, 2px);
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
         }
 
         .spinner {
           width: 1.25rem;
           height: 1.25rem;
-          animation: spin 1s linear infinite;
+          animation: pixelSpin 0.8s linear infinite;
+          image-rendering: pixelated;
         }
 
         .spinner-circle {
@@ -409,27 +498,35 @@ const Login = () => {
           opacity: 0.75;
         }
 
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
+        @keyframes pixelSpin {
+          0% { transform: rotate(0deg); }
+          25% { transform: rotate(90deg); }
+          50% { transform: rotate(180deg); }
+          75% { transform: rotate(270deg); }
+          100% { transform: rotate(360deg); }
         }
 
         .register-link {
           text-align: center;
           font-size: 0.9rem;
-          color: #64748b;
+          color: #7b8cde;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          margin-top: 1rem;
         }
 
         .register-link-text {
-          font-weight: 500;
-          color: #2563eb;
+          font-weight: 700;
+          color: #00d9ff;
           text-decoration: none;
-          transition: color 0.2s ease;
+          transition: all 0.2s ease;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Press Start 2P', monospace;
+          letter-spacing: 0.5px;
         }
 
         .register-link-text:hover {
-          color: #1d4ed8;
+          color: #7df9ff;
+          text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
         }
 
         @media (max-width: 640px) {
@@ -439,6 +536,13 @@ const Login = () => {
 
           .form-card {
             padding: 1.5rem;
+            border-width: 3px;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          }
+
+          .form-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.3);
           }
 
           .form-title {
@@ -454,6 +558,30 @@ const Login = () => {
           .form-card {
             padding: 2.5rem;
           }
+        }
+
+        /* Pixel-perfect icons */
+        .input-icon {
+          image-rendering: pixelated;
+        }
+
+        /* Glow on focus/hover */
+        .input-field:focus + .input-icon,
+        .register-link-text:hover,
+        .forgot-password:hover {
+          animation: elementGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes elementGlow {
+          0%, 100% { filter: drop-shadow(0 0 5px currentColor); }
+          50% { filter: drop-shadow(0 0 15px currentColor); }
+        }
+
+        /* Focus states */
+        .input-field:focus,
+        select:focus {
+          outline: 3px solid #00d9ff;
+          outline-offset: 2px;
         }
       `}</style>
     </div>

@@ -481,7 +481,7 @@ const ListingDetails = () => {
           </div>
 
           <div className="profile-section">
-            <h2>ព័ត៌មានអ្នកផ្សាយ</h2>
+            <h2 style={{ fontFamily: "'Khmer', sans-serif" }} className='profile-title'>ព័ត៌មានអ្នកផ្សាយ</h2>
             {ownerLoading ? (
               <div className="profile-loading">
                 <div className="loading-placeholder avatar" />
@@ -527,7 +527,7 @@ const ListingDetails = () => {
 
         <div className="details-section">
           <span className="category-badge">{listing.category}</span>
-          <h1>{listing.title}</h1>
+          <h1 style={{ fontFamily: "'Khmer', sans-serif" }}>{listing.title}</h1>
           <div className="meta-info">
             <p>
               <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -561,47 +561,6 @@ const ListingDetails = () => {
         </div>
 
         
-
-        {/* Safety Tips Section */}
-        <div className="safety-tips">
-          <h2>ព័ត៌មានសុវត្ថិភាពសម្រាប់អ្នកទិញ</h2>
-          <ul>
-            <li>
-              <strong>មិនត្រូវធ្វើការផ្ញើប្រាក់ទៅមុន មុនពេលទទួលទំនិញ</strong>
-            </li>
-            <li>
-              <strong>សូមពិនិត្យមើលទំនិញមុនពេលដែលអ្នកទិញ</strong>
-            </li>
-            <li>
-              <strong>បង់ប្រាក់បន្ទាប់ពីទទួលបានទំនិញ</strong>
-            </li>
-            <li>
-              <strong>ត្រូវជួបអ្នកលក់នៅទីតាំងដែលមានសុវត្ថិភាព</strong>
-            </li>
-          </ul>
-        </div>
-
-        {/* Disclaimer Section */}
-        <div className="disclaimer">
-          <h2>ការមិនទទួលខុសត្រូវ / Disclaimer</h2>
-          <ul>
-            <li>
-              <strong>
-                យើងខ្ញុំមិនគ្រប់គ្រងមាតិកា
-                ដែលបានបង្ហោះឡើងដោយសមាជិកឡើយ។ ដូច្នេះយើងមិនទទួលខុសត្រូវលើការផ្សាយផលិតផលនេះទេ
-                ហើយក៏មិនធានាចំពោះបញ្ហាដែលទាក់ទងដោយផ្ទាល់ ឬ
-                ប្រយោលទៅនឹងសកម្មភាព ឬ អសកម្មណាមួយឡើយ។
-              </strong>
-            </li>
-            <li>
-              <strong>
-                We do not control the content posted by members and therefore assume no responsibility and
-                disclaim any liability for any consequence relating directly or indirectly to any action or
-                inaction.
-              </strong>
-            </li>
-          </ul>
-        </div>
 
         {/* Fullscreen Image Modal */}
         {isFullscreenOpen && imageUrls.length > 0 && (
@@ -640,12 +599,7 @@ const ListingDetails = () => {
         )}
 
         {/* Back to Top Button */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="back-to-top"
-        >
-          ↑
-        </button>
+        
       </div>
     </div>
   );

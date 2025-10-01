@@ -22,21 +22,6 @@ const EditListing = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0); // Track main image
   const [imagesToDelete, setImagesToDelete] = useState([]); // Track images to delete
 
-  // CSS Variables matching MyListings.jsx
-  const cssVariables = {
-    '--primary-color': '#1e40af',
-    '--accent-color': '#3b82f6',
-    '--text-primary': '#111827',
-    '--text-secondary': '#6b7280',
-    '--background': '#f8fafc',
-    '--surface': '#ffffff',
-    '--border': '#e5e7eb',
-    '--shadow-sm': '0 2px 4px rgba(0, 0, 0, 0.05)',
-    '--shadow-md': '0 4px 12px rgba(0, 0, 0, 0.08)',
-    '--transition': 'all 0.3s ease',
-    '--error-color': '#dc2626',
-  };
-
   const categoryOptions = [
     { value: 'Cars and Vehicles', label: 'ឡាននិងយានជំនិះ' },
     { value: 'Phones & Tablets', label: 'ទូរស័ព្ទនិងថេប្លេត' },
@@ -196,7 +181,7 @@ const EditListing = () => {
       let errorMessage = `បរាជ័យក្នុងការកែសម្រួលការផ្សាយ។ (កំហុស: ${error.message})`;
       if (error.response) {
         errorMessage = error.response.status === 404
-          ? 'ការផ្សាយមិនត្រូវបានរកឃើញទេ�।'
+          ? 'ការផ្សាយមិនត្រូវបានរកឃើញទេ។'
           : error.response.status === 403
           ? 'អ្នកមិនមានសិទ្ធិកែសម្រួលការផ្សាយនេះទេ។'
           : `បរាជ័យក្នុងការកែសម្រួលការផ្សាយ។ (កំហុស: ${error.response.data?.detail || error.message})`;
@@ -207,34 +192,20 @@ const EditListing = () => {
 
   if (loading) {
     return (
-      <div style={{
-        background: cssVariables['--background'],
-        padding: '2rem 1rem',
-        minHeight: '100vh',
-        fontFamily: "'Kantumruy', 'Arial', sans-serif",
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{
-            background: cssVariables['--surface'],
-            border: `1px solid ${cssVariables['--border']}`,
-            borderRadius: '12px',
-            padding: '2rem',
-            boxShadow: cssVariables['--shadow-sm'],
-          }}>
-            <div style={{
-              height: '2rem',
-              background: cssVariables['--border'],
-              borderRadius: '8px',
-              marginBottom: '2rem',
-            }} />
-            <div style={{ spaceY: '1rem' }}>
-              {[...Array(5)].map((_, i) => (
-                <div key={i} style={{
-                  height: '2.5rem',
-                  background: cssVariables['--border'],
-                  borderRadius: '8px',
-                  marginBottom: '1rem',
-                }} />
+      <div className="edit-listing-loading-container">
+        <div className="edit-listing-loading-wrapper">
+          <div className="loading-container">
+            <div className="loading-header"></div>
+            <div className="loading-grid">
+              {[...Array(5)].map((_, index) => (
+                <div key={index} className="loading-card">
+                  <div className="loading-image"></div>
+                  <div className="loading-content">
+                    <div className="loading-line"></div>
+                    <div className="loading-line short"></div>
+                    <div className="loading-line"></div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -244,158 +215,70 @@ const EditListing = () => {
   }
 
   return (
-    <div style={{
-      background: cssVariables['--background'],
-      padding: '2rem 1rem',
-      minHeight: '100vh',
-      fontFamily: "'Kantumruy', 'Arial', sans-serif",
-    }}>
-      <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-        <h1 style={{
-          fontSize: '2rem',
-          fontWeight: '600',
-          color: cssVariables['--text-primary'],
-          marginBottom: '1.5rem',
-        }}>
-          កែសម្រួលការផ្សាយ
-        </h1>
+    <div className="edit-listing-container">
+      <div className="edit-listing-wrapper">
+        <div className="edit-listing-header">
+          <h1 className="edit-listing-title">កែសម្រួលការផ្សាយ</h1>
+        </div>
+
+        {/* Error Message */}
         {error && (
-          <div style={{
-            background: '#fee2e2',
-            border: '1px solid #fecaca',
-            color: cssVariables['--error-color'],
-            padding: '1rem',
-            borderRadius: '8px',
-            marginBottom: '1.5rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-          }}>
-            <strong style={{ fontWeight: '600', fontSize: '0.9rem' }}>កំហុស:</strong>
-            <span style={{ fontSize: '0.9rem' }}>{error}</span>
+          <div className="error-alert">
+            <div className="error-content">
+              <strong className="error-strong">កំហុស:</strong>
+              <span className="error-message">{error}</span>
+            </div>
           </div>
         )}
-        <form onSubmit={handleSubmit} style={{
-          background: cssVariables['--surface'],
-          border: `1px solid ${cssVariables['--border']}`,
-          borderRadius: '12px',
-          padding: '1.5rem',
-          boxShadow: cssVariables['--shadow-sm'],
-        }}>
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              color: cssVariables['--text-secondary'],
-              marginBottom: '0.5rem',
-            }}>
-              ចំណងជើង
-            </label>
+
+        <form onSubmit={handleSubmit} className="edit-form">
+          <div className="form-group">
+            <label className="form-label">ចំណងជើង</label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: `1px solid ${cssVariables['--border']}`,
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                color: cssVariables['--text-primary'],
-                background: cssVariables['--surface'],
-                transition: cssVariables['--transition'],
-              }}
+              className="form-input"
               required
               aria-label="ចំណងជើង"
             />
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              color: cssVariables['--text-secondary'],
-              marginBottom: '0.5rem',
-            }}>
-              ការពិពណ៌នា
-            </label>
+
+          <div className="form-group">
+            <label className="form-label">ការពិពណ៌នា</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: `1px solid ${cssVariables['--border']}`,
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                color: cssVariables['--text-primary'],
-                background: cssVariables['--surface'],
-                minHeight: '100px',
-                resize: 'vertical',
-                transition: cssVariables['--transition'],
-              }}
+              className="form-input"
               rows="4"
               aria-label="ការពិពណ៌នា"
             />
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              color: cssVariables['--text-secondary'],
-              marginBottom: '0.5rem',
-            }}>
-              តម្លៃ (USD)
-            </label>
+
+          <div className="form-group">
+            <label className="form-label">តម្លៃ (USD)</label>
             <input
               type="number"
               name="price"
               value={formData.price}
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: `1px solid ${cssVariables['--border']}`,
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                color: cssVariables['--text-primary'],
-                background: cssVariables['--surface'],
-                transition: cssVariables['--transition'],
-              }}
+              className="form-input"
               step="0.01"
               min="0"
               required
               aria-label="តម្លៃ"
             />
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              color: cssVariables['--text-secondary'],
-              marginBottom: '0.5rem',
-            }}>
-              ប្រភេទ
-            </label>
+
+          <div className="form-group">
+            <label className="form-label">ប្រភេទ</label>
             <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: `1px solid ${cssVariables['--border']}`,
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                color: cssVariables['--text-primary'],
-                background: cssVariables['--surface'],
-                transition: cssVariables['--transition'],
-              }}
+              className="form-input"
               required
               aria-label="ប្រភេទ"
             >
@@ -407,112 +290,53 @@ const EditListing = () => {
               ))}
             </select>
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              color: cssVariables['--text-secondary'],
-              marginBottom: '0.5rem',
-            }}>
-              តំណភ្ជាប់ Telegram
-            </label>
+
+          <div className="form-group">
+            <label className="form-label">តំណភ្ជាប់ Telegram</label>
             <input
               type="url"
               name="telegram_link"
               value={formData.telegram_link}
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: `1px solid ${cssVariables['--border']}`,
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                color: cssVariables['--text-primary'],
-                background: cssVariables['--surface'],
-                transition: cssVariables['--transition'],
-              }}
+              className="form-input"
               required
               aria-label="តំណភ្ជាប់ Telegram"
             />
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              color: cssVariables['--text-secondary'],
-              marginBottom: '0.5rem',
-            }}>
-              អ៊ីមែល
-            </label>
+
+          <div className="form-group">
+            <label className="form-label">អ៊ីមែល</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: `1px solid ${cssVariables['--border']}`,
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                color: cssVariables['--text-primary'],
-                background: cssVariables['--surface'],
-                transition: cssVariables['--transition'],
-              }}
+              className="form-input"
               required
               aria-label="អ៊ីមែល"
             />
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              color: cssVariables['--text-secondary'],
-              marginBottom: '0.5rem',
-            }}>
-              រូបភាព
-            </label>
+
+          <div className="form-group">
+            <label className="form-label">រូបភាព</label>
             <input
               type="file"
               name="files"
               accept="image/*"
               multiple
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: `1px solid ${cssVariables['--border']}`,
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                background: cssVariables['--surface'],
-              }}
+              className="file-input"
               aria-label="ជ្រើសរើសរូបភាព"
             />
             {previewImages.length > 0 && (
-              <div style={{ marginTop: '1rem', spaceY: '1rem' }}>
+              <div className="image-preview-section">
                 {/* Main Image */}
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '12rem',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  border: `1px solid ${cssVariables['--border']}`,
-                  boxShadow: cssVariables['--shadow-sm'],
-                }}>
+                <div className="main-image-container">
                   {previewImages[selectedImageIndex] && !imageErrors[selectedImageIndex] ? (
                     <img
                       src={previewImages[selectedImageIndex]}
                       alt={`Preview ${selectedImageIndex + 1}`}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transition: cssVariables['--transition'],
-                      }}
+                      className="main-image"
                       onError={() => {
                         console.error('Main image failed to load:', previewImages[selectedImageIndex]);
                         setImageErrors((prev) => {
@@ -524,73 +348,27 @@ const EditListing = () => {
                       onLoad={() => console.log('Main image loaded successfully:', previewImages[selectedImageIndex])}
                     />
                   ) : (
-                    <div style={{
-                      width: '100%',
-                      height: '100%',
-                      background: cssVariables['--background'],
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexDirection: 'column',
-                      gap: '0.5rem',
-                    }}>
-                      <svg
-                        style={{ width: '2rem', height: '2rem', color: cssVariables['--text-secondary'] }}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                      <span style={{ fontSize: '0.75rem', color: cssVariables['--text-secondary'] }}>
-                        រូបភាពមិនអាចបង្ហាញបាន
-                      </span>
+                    <div className="image-error">
+                      <ImageIcon className="image-error-icon" />
+                      <span className="image-error-text">រូបភាពមិនអាចបង្ហាញបាន</span>
                     </div>
                   )}
                 </div>
                 {/* Thumbnails */}
-                <div style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '0.5rem',
-                  marginTop: '0.5rem',
-                }}>
+                <div className="thumbnails-container">
                   {previewImages.map((url, index) => (
-                    <div key={index} style={{
-                      position: 'relative',
-                      width: '4rem',
-                      height: '4rem',
-                      borderRadius: '6px',
-                      overflow: 'hidden',
-                      border: `2px solid ${selectedImageIndex === index ? cssVariables['--accent-color'] : cssVariables['--border']}`,
-                      transition: cssVariables['--transition'],
-                    }}>
+                    <div key={index} className={`thumbnail ${selectedImageIndex === index ? 'selected' : ''}`}>
                       <button
                         type="button"
                         onClick={() => setSelectedImageIndex(index)}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          background: 'none',
-                          border: 'none',
-                          padding: 0,
-                        }}
+                        className="thumbnail-button"
                         aria-label={`ជ្រើសរូបភាព ${index + 1}`}
                       >
                         {url && !imageErrors[index] ? (
                           <img
                             src={url}
                             alt={`Thumbnail ${index + 1}`}
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                            }}
+                            className="thumbnail-image"
                             onError={() => {
                               console.error('Thumbnail failed to load:', url);
                               setImageErrors((prev) => {
@@ -602,40 +380,15 @@ const EditListing = () => {
                             onLoad={() => console.log('Thumbnail loaded successfully:', url)}
                           />
                         ) : (
-                          <div style={{
-                            width: '100%',
-                            height: '100%',
-                            background: cssVariables['--background'],
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}>
-                            <span style={{ fontSize: '0.6rem', color: cssVariables['--text-secondary'] }}>
-                              មិនអាចផ្ទុក
-                            </span>
+                          <div className="thumbnail-error">
+                            <span className="thumbnail-error-text">មិនអាចផ្ទុក</span>
                           </div>
                         )}
                       </button>
                       <button
                         type="button"
                         onClick={() => handleDeleteImage(index)}
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                          background: cssVariables['--error-color'],
-                          color: cssVariables['--surface'],
-                          borderRadius: '50%',
-                          width: '1.25rem',
-                          height: '1.25rem',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '0.75rem',
-                          transform: 'translate(50%, -50%)',
-                          border: 'none',
-                          cursor: 'pointer',
-                        }}
+                        className="delete-thumbnail-button"
                         aria-label={`លុបរូបភាព ${index + 1}`}
                       >
                         ✕
@@ -646,25 +399,11 @@ const EditListing = () => {
               </div>
             )}
           </div>
-          <div style={{
-            display: 'flex',
-            gap: '1rem',
-            marginTop: '1.5rem',
-          }}>
+
+          <div className="form-actions">
             <button
               type="submit"
-              style={{
-                flex: 1,
-                padding: '0.75rem',
-                background: cssVariables['--accent-color'],
-                color: cssVariables['--surface'],
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                fontWeight: '600',
-                border: 'none',
-                cursor: 'pointer',
-                transition: cssVariables['--transition'],
-              }}
+              className="submit-button"
               aria-label="រក្សាទុកការផ្សាយ"
             >
               រក្សាទុក
@@ -672,18 +411,7 @@ const EditListing = () => {
             <button
               type="button"
               onClick={() => navigate('/my-listings')}
-              style={{
-                flex: 1,
-                padding: '0.75rem',
-                background: cssVariables['--surface'],
-                border: `1px solid ${cssVariables['--border']}`,
-                color: cssVariables['--text-secondary'],
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                fontWeight: '500',
-                cursor: 'pointer',
-                transition: cssVariables['--transition'],
-              }}
+              className="cancel-button"
               aria-label="បោះបង់"
             >
               បោះបង់
@@ -692,53 +420,530 @@ const EditListing = () => {
         </form>
       </div>
 
-      <style>
-        {`
-          @media (max-width: 600px) {
-            .form-container {
-              padding: 1rem !important;
-            }
+      <style jsx>{`
+        .edit-listing-container {
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+          padding: 2rem 1rem;
+          min-height: 100vh;
+          font-family: 'Inter', 'Khmer', sans-serif;
+          color: #e2e8f0;
+        }
+
+        .edit-listing-wrapper {
+          max-width: 700px;
+          margin: 0 auto;
+        }
+
+        .edit-listing-header {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+
+        .edit-listing-title {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #00d9ff;
+          margin: 0;
+          text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Khmer', monospace;
+          letter-spacing: 1px;
+        }
+
+        /* Error Alert */
+        .error-alert {
+          background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(199, 44, 65, 0.2) 100%);
+          border: 4px solid #e94560;
+          color: #e94560;
+          padding: 1rem;
+          border-radius: 0;
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          font-family: 'Khmer', monospace;
+          text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .error-content {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          flex: 1;
+        }
+
+        .error-strong {
+          font-weight: 700;
+          font-size: 0.9rem;
+        }
+
+        .error-message {
+          font-size: 0.9rem;
+        }
+
+        /* Edit Form */
+        .edit-form {
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          border: 4px solid #533483;
+          border-radius: 0;
+          padding: 2rem;
+          box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+          position: relative;
+          backdrop-filter: blur(10px);
+          transition: all 0.2s ease;
+        }
+
+        .edit-form::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(45deg, transparent 48%, rgba(0, 217, 255, 0.1) 50%, transparent 52%);
+          background-size: 20px 20px;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+
+        .edit-form:hover::before {
+          opacity: 1;
+        }
+
+        .edit-form:hover {
+          transform: translate(-3px, -3px);
+          box-shadow: 9px 9px 0 rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 217, 255, 0.3);
+          border-color: #00d9ff;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #7b8cde;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Khmer', monospace;
+          letter-spacing: 0.5px;
+        }
+
+        .form-input {
+          padding: 0.75rem;
+          border: 3px solid #533483;
+          border-radius: 0;
+          font-size: 0.9rem;
+          color: #e2e8f0;
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          transition: all 0.2s ease;
+          font-family: 'Inter', sans-serif;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(5px);
+        }
+
+        .form-input:focus {
+          outline: none;
+          border-color: #00d9ff;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.3);
+          transform: translate(-2px, -2px);
+        }
+
+        textarea.form-input {
+          min-height: 100px;
+          resize: vertical;
+        }
+
+        select.form-input {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%237b8cde' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+          background-position: right 0.5rem center;
+          background-repeat: no-repeat;
+          background-size: 1.5em 1.5em;
+          padding-right: 2.5rem;
+        }
+
+        .file-input {
+          padding: 0.75rem;
+          border: 3px solid #533483;
+          border-radius: 0;
+          font-size: 0.9rem;
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          color: #e2e8f0;
+          cursor: pointer;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          font-family: 'Inter', sans-serif;
+          transition: all 0.2s ease;
+        }
+
+        .file-input:focus {
+          outline: none;
+          border-color: #00d9ff;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Image Preview Section */
+        .image-preview-section {
+          margin-top: 1rem;
+        }
+
+        .main-image-container {
+          position: relative;
+          width: 100%;
+          height: 12rem;
+          border-radius: 0;
+          overflow: hidden;
+          border: 4px solid #533483;
+          box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+          transition: all 0.3s ease;
+        }
+
+        .main-image-container:hover {
+          border-color: #00d9ff;
+          box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .main-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          image-rendering: pixelated;
+          transition: transform 0.3s ease;
+        }
+
+        .main-image-container:hover .main-image {
+          transform: scale(1.05);
+          filter: brightness(1.1);
+        }
+
+        .image-error,
+        .thumbnail-error {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 0.5rem;
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+          border: 3px dashed #533483;
+        }
+
+        .image-error-icon,
+        .thumbnail-error-icon {
+          width: 2rem;
+          height: 2rem;
+          color: #7b8cde;
+          filter: drop-shadow(0 0 10px rgba(83, 52, 131, 0.5));
+          image-rendering: pixelated;
+        }
+
+        .image-error-text,
+        .thumbnail-error-text {
+          font-size: 0.75rem;
+          color: #7b8cde;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+          font-family: 'Khmer', monospace;
+        }
+
+        .thumbnails-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-top: 0.5rem;
+        }
+
+        .thumbnail {
+          position: relative;
+          width: 4rem;
+          height: 4rem;
+          border-radius: 0;
+          overflow: hidden;
+          border: 3px solid #533483;
+          transition: all 0.2s ease;
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .thumbnail.selected {
+          border-color: #00d9ff;
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 217, 255, 0.3);
+        }
+
+        .thumbnail:hover {
+          transform: translate(-2px, -2px);
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 217, 255, 0.3);
+          border-color: #00d9ff;
+        }
+
+        .thumbnail-button {
+          width: 100%;
+          height: 100%;
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+        }
+
+        .thumbnail-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          image-rendering: pixelated;
+        }
+
+        .delete-thumbnail-button {
+          position: absolute;
+          top: 0;
+          right: 0;
+          background: linear-gradient(180deg, #e94560 0%, #c72c41 100%);
+          color: white;
+          border-radius: 50%;
+          width: 1.25rem;
+          height: 1.25rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75rem;
+          transform: translate(50%, -50%);
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+          font-family: 'Khmer', monospace;
+        }
+
+        .delete-thumbnail-button:hover {
+          background: linear-gradient(180deg, #ff5470 0%, #e94560 100%);
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4), 0 0 10px rgba(233, 69, 96, 0.5);
+          transform: translate(50%, -50%) scale(1.1);
+        }
+
+        /* Form Actions */
+        .form-actions {
+          display: flex;
+          gap: 1rem;
+          margin-top: 1.5rem;
+        }
+
+        .submit-button,
+        .cancel-button {
+          flex: 1;
+          padding: 0.75rem;
+          border-radius: 0;
+          font-size: 0.9rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          border: 3px solid;
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+          letter-spacing: 0.5px;
+          font-family: 'Khmer', monospace;
+          text-transform: uppercase;
+        }
+
+        .submit-button {
+          background: linear-gradient(180deg, #00d9ff 0%, #0099cc 100%);
+          color: #0a0e27;
+          border-color: #006699;
+        }
+
+        .submit-button:hover {
+          background: linear-gradient(180deg, #7df9ff 0%, #00d9ff 100%);
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.6);
+          transform: translateY(-2px);
+        }
+
+        .submit-button:active {
+          transform: translate(2px, 2px);
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .cancel-button {
+          background: linear-gradient(180deg, #533483 0%, #3a2359 100%);
+          color: #00d9ff;
+          border-color: #7b8cde;
+        }
+
+        .cancel-button:hover {
+          background: linear-gradient(180deg, #7b8cde 0%, #533483 100%);
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.6);
+          transform: translateY(-2px);
+        }
+
+        .cancel-button:active {
+          transform: translate(2px, 2px);
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Loading States */
+        .edit-listing-loading-container {
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+          padding: 2rem 1rem;
+          min-height: 100vh;
+          font-family: 'Inter', 'Khmer', sans-serif;
+        }
+
+        .edit-listing-loading-wrapper {
+          max-width: 700px;
+          margin: 0 auto;
+        }
+
+        .loading-container {
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          border: 4px solid #533483;
+          border-radius: 0;
+          padding: 2rem;
+          box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(10px);
+        }
+
+        .loading-header {
+          height: 2rem;
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+          border-radius: 0;
+          margin-bottom: 2rem;
+          animation: pulse 2s infinite;
+          border: 3px solid #533483;
+        }
+
+        .loading-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
+
+        .loading-card {
+          background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(26, 26, 46, 0.6) 100%);
+          border: 4px solid #533483;
+          border-radius: 0;
+          overflow: hidden;
+          box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .loading-image {
+          height: 10rem;
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+          border-radius: 0;
+          animation: pulse 2s infinite;
+          border-bottom: 4px solid #533483;
+        }
+
+        .loading-content {
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .loading-line {
+          height: 0.875rem;
+          background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+          border-radius: 0;
+          animation: pulse 2s infinite;
+          border: 2px solid #533483;
+        }
+
+        .loading-line.short {
+          width: 60%;
+        }
+
+        @keyframes pulse {
+          0% { opacity: 1; }
+          50% { opacity: 0.5; }
+          100% { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+          .edit-listing-container {
+            padding: 1rem;
           }
 
-          .submit-button:hover,
-          .cancel-button:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
+          .edit-form {
+            padding: 1.5rem;
           }
 
-          .submit-button:hover {
-            background: ${cssVariables['--primary-color']};
+          .loading-grid {
+            grid-template-columns: 1fr;
           }
 
-          .cancel-button:hover {
-            background: ${cssVariables['--border']};
-            color: ${cssVariables['--text-primary']};
+          .thumbnails-container {
+            justify-content: center;
           }
 
-          .thumbnail:hover {
-            border-color: ${cssVariables['--accent-color']} !important;
+          .form-actions {
+            flex-direction: column;
           }
 
-          input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: ${cssVariables['--accent-color']};
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+          .edit-form {
+            border-width: 3px;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
           }
 
-          /* Animation for new images */
-          @keyframes highlightNew {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.02); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
+          .edit-form:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.3);
           }
+        }
 
-          .main-image {
-            animation: highlightNew 0.6s ease-out;
-          }
-        `}
-      </style>
+        /* Pixel-perfect rendering */
+        .thumbnail-image,
+        .main-image {
+          image-rendering: pixelated;
+        }
+
+        /* Glow effects */
+        .thumbnail:hover .thumbnail-image,
+        .submit-button:hover,
+        .cancel-button:hover {
+          animation: elementGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes elementGlow {
+          0%, 100% { filter: drop-shadow(0 0 5px currentColor); }
+          50% { filter: drop-shadow(0 0 15px currentColor); }
+        }
+
+        /* Focus states */
+        .form-input:focus,
+        .file-input:focus,
+        select:focus,
+        textarea:focus {
+          outline: 3px solid #00d9ff;
+          outline-offset: 2px;
+        }
+
+        /* Icon Component */
+        .image-error-icon {
+          image-rendering: pixelated;
+        }
+
+        /* Animation for new images */
+        @keyframes highlightNew {
+          0% { transform: scale(0.95); opacity: 0.8; }
+          50% { transform: scale(1.02); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+
+        .main-image {
+          animation: highlightNew 0.6s ease-out;
+        }
+      `}</style>
     </div>
   );
 };
+
+// Icon Component
+const ImageIcon = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  </svg>
+);
 
 export default EditListing;
